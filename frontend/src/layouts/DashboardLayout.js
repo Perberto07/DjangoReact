@@ -1,6 +1,6 @@
 /*import Header from '../components/Header';
-import Footer from '../components/Footer';
 import Navigation from '../components/Navigation'*/
+import Footer from '../components/Footer';
 
 const DashboardLayout = ({ children }) => {
   return (
@@ -11,7 +11,13 @@ const DashboardLayout = ({ children }) => {
       </header>
 
       {/* Main Content */}
-      <main className="p-6">{children}</main>
+      <main className="flex-grow p-6">
+        {children}
+      </main>
+
+      <footer>
+        <Footer/>
+      </footer>
     </div>
   );
 };
