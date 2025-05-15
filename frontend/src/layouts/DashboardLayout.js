@@ -1,23 +1,18 @@
-/*import Header from '../components/Header';
-import Navigation from '../components/Navigation'*/
-import Footer from '../components/Footer';
+
+import Sidebar from '../components/Sidebar';
 
 const DashboardLayout = ({ children }) => {
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
-      {/* Header */}
-      <header className="p-4 bg-gray-800 shadow-md">
-        <h1 className="text-xl font-bold">Dark Theme Dashboard</h1>
-      </header>
+    <div className="min-h-screen flex flex-col bg-gray-900 text-gray-100">
+      <div className='flex flex-row'>
+        <aside>
+          <Sidebar/>
+        </aside>
 
-      {/* Main Content */}
-      <main className="flex-grow p-6">
-        {children}
-      </main>
-
-      <footer>
-        <Footer/>
-      </footer>
+        <main className="flex-grow p-6">
+          {children}
+        </main>
+      </div>
     </div>
   );
 };
