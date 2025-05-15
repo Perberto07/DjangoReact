@@ -19,11 +19,11 @@ const Customer = () => {
   return (
     <>
     <MainLayout>
-        <ul className="space-y-4">
+        <ul className="flex flex-row items-center space-x-4">
           <li onClick={() => setActivePanel('customerlist')} className="cursor-pointer hover:text-blue-500">Customer List</li>
           <li onClick={() => setActivePanel('customerpanel')} className="cursor-pointer hover:text-blue-500">Customer Panel</li>
         </ul>
-        
+
         <main className="flex-grow p-6">
             {renderPanel()}
         </main>

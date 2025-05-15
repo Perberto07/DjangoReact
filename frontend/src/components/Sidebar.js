@@ -14,7 +14,7 @@ const Sidebar = () => {
             <ShoppingBag size={18} />
             Product
           </li>
-          <li className="flex items-center gap-2 hover:text-blue-400 cursor-pointer">
+          <li className="flex items-center gap-2 hover:text-blue-400 cursor-pointer">   
             <Users size={18} />
             Customer
           </li>
