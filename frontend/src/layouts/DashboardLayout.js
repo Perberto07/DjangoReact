@@ -4,9 +4,15 @@ import Navigation from '../components/Navigation'*/
 
 const DashboardLayout = ({ children }) => {
   return (
-    <>
-      <main className="min-h-screen p-4">{children}</main>
-    </>
+    <div className="min-h-screen bg-gray-900 text-gray-100">
+      {/* Header */}
+      <header className="p-4 bg-gray-800 shadow-md">
+        <h1 className="text-xl font-bold">Dark Theme Dashboard</h1>
+      </header>
+
+      {/* Main Content */}
+      <main className="p-6">{children}</main>
+    </div>
   );
 };
 
