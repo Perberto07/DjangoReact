@@ -10,7 +10,7 @@ const MainLayout = ({ children }) => {
       <main className="flex-grow p-6">
         {children}
       </main>
-      <Footer theme="light" />
+      <Footer theme="dark" />
     </div>
   );
 };
