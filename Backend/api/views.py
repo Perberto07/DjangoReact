@@ -12,7 +12,6 @@ class ProductViewSet(viewsets.ViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     
-
     def list(self, request):
         queryset = self.queryset
         serializer = self.serializer_class(queryset, many= True)
@@ -27,12 +26,12 @@ class ProductViewSet(viewsets.ViewSet):
             return Response(serializer.errors, status=400)
         
     def retrieve(self, request, pk=None):
-        queryset = self.queryset.get(pk=pk)
+        queryset = get_object_or_404(self.queryset, pk=pk)
         serializer = self.serializer_class(queryset)
         return Response(serializer.data)
     
     def update(self, request, pk=None):
-        product = self.queryset(pk=pk)
+        product = get_object_or_404(self.queryset, pk=pk)
         serializer = self.serializer_class(product, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -40,8 +39,17 @@ class ProductViewSet(viewsets.ViewSet):
         else:
             return Response(serializer.errors, status=400)
         
+    def partial_update(self, request, pk=None):
+        product = get_object_or_404(self.queryset, pk=pk)
+        serializer = self.serializer_class(product, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=400)        
+        
     def delete(self, request, pk=None):
-        product = self.queryset(pk=pk)
+        product = get_object_or_404(self.queryset, pk=pk)
         product.delete()
 
     
@@ -52,7 +60,7 @@ class ProductViewSet(viewsets.ViewSet):
 
 class CustomerViewSet(viewsets.ViewSet):
     queryset = Customer.objects.all()
-    serializer_class = CustomerSerializer(queryset, many= True)
+    serializer_class = CustomerSerializer
     permission_classes = [permissions.AllowAny]
 
     def list(self, request):
@@ -69,10 +77,18 @@ class CustomerViewSet(viewsets.ViewSet):
             return Response(serializer.errors, status=400)
         
     def retrieve(self, request, pk=None):
-        pass
+        queryset = get_object_or_404(self.queryset, pk=pk)
+        serializer = self.serializer_class(queryset)
+        return Response(serializer.data)
 
     def update(self, request, pk=None):
-        pass
+        customer = get_object_or_404(self.queryset, pk=pk)
+        serializer = self.serializer_class(customer, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=400)
 
     def partial_update(self, request, pk=None):
         pass
