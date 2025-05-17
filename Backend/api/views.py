@@ -1,81 +1,81 @@
-from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from django.views.decorators.http import require_http_methods
 from django.shortcuts import get_object_or_404
 from .models import Product, Customer
 from .serializer import ProductSerializer, CustomerSerializer
-import json
+from rest_framework import viewsets, permissions
+from rest_framework.response import Response
 
-@csrf_exempt
-@require_http_methods(["GET", "POST"])
-def ProductList(request):
-    if request.method == 'GET':
-        products = Product.objects.all()
-        serializer = ProductSerializer(products, many=True)
-        return JsonResponse(serializer.data, safe=False)
 
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        serializer = ProductSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
 
-@csrf_exempt
-@require_http_methods(["GET", "PUT", "DELETE"])
-def ProductDetail(request, id):
-    product = get_object_or_404(Product, pk=id)
-
-    if request.method == 'GET':
-        serializer = ProductSerializer(product)
-        return JsonResponse(serializer.data)
-
-    if request.method == 'PUT':
-        data = json.loads(request.body)
-        serializer = ProductSerializer(product, data=data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
-
-    if request.method == 'DELETE':
-        product.delete()
-        return JsonResponse({'message': 'Product deleted successfully'}, status=202)
-
-@csrf_exempt
-@require_http_methods(["GET", "POST"])
-def CustomerList(request):
-    if request.method == 'GET':
-        customers = Customer.objects.all()
-        serializer = CustomerSerializer(customers, many=True)
-        return JsonResponse(serializer.data, safe=False)
-
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        serializer = CustomerSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+class ProductViewSet(viewsets.ViewSet):
+    permission_classes = [permissions.AllowAny]
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
     
-@csrf_exempt
-@require_http_methods(["GET", "PUT", "DELETE"])
-def CustomerDetail(request, id):
-    customer = get_object_or_404(Customer, pk=id)
 
-    if request.method == 'GET':
-        serializer = CustomerSerializer(customer)
-        return JsonResponse(serializer.data)
-
-    if request.method == 'PUT':
-        data = json.loads(request.body)
-        serializer = CustomerSerializer(customer, data=data, partial=True)
+    def list(self, request):
+        queryset = self.queryset
+        serializer = self.serializer_class(queryset, many= True)
+        return Response(serializer.data)
+    
+    def create(self, request):
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=400)
+        
+    def retrieve(self, request, pk=None):
+        queryset = self.queryset.get(pk=pk)
+        serializer = self.serializer_class(queryset)
+        return Response(serializer.data)
+    
+    def update(self, request, pk=None):
+        product = self.queryset(pk=pk)
+        serializer = self.serializer_class(product, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=400)
+        
+    def delete(self, request, pk=None):
+        product = self.queryset(pk=pk)
+        product.delete()
 
-    if request.method == 'DELETE':
-        customer.delete()
-        return JsonResponse({'message': 'Product deleted successfully'}, status=202)
+    
+
+
+
+
+
+class CustomerViewSet(viewsets.ViewSet):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer(queryset, many= True)
+    permission_classes = [permissions.AllowAny]
+
+    def list(self, request):
+        queryset = self.queryset
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+    
+    def create(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=400)
+        
+    def retrieve(self, request, pk=None):
+        pass
+
+    def update(self, request, pk=None):
+        pass
+
+    def partial_update(self, request, pk=None):
+        pass
+
+    def destroy(self, request, pk=None):
+        pass
