@@ -6,6 +6,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register('product', ProductViewSet, basename='product' )
 router.register('customer', CustomerViewSet, basename='customer' )
+router.register('category', CategoryViewSet, basename='category' )
 urlpatterns = router.urls
 
 #app_name= 'api'

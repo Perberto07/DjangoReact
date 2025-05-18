@@ -1,6 +1,7 @@
 // src/components/AddProduct.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createProduct } from '../../services/ProductServices';
+import { getCategory } from '../../services/CategoryServices'; // make sure path is correct
 
 const AddProduct = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +10,22 @@ const AddProduct = () => {
     product_price: '',
   });
 
+  const [categories, setCategories] = useState([]);
   const [message, setMessage] = useState('');
+
+  // Fetch categories when component mounts
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getCategory();
+        setCategories(data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -49,13 +65,20 @@ const AddProduct = () => {
           required
         /><br />
 
-        <textarea
+        {/* Category dropdown */}
+        <select
           name="product_category"
-          placeholder="Product Category"
           value={formData.product_category}
           onChange={handleChange}
           required
-        ></textarea><br />
+        >
+          <option value="">-- Select Category --</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.category_name}
+            </option>
+          ))}
+        </select><br />
 
         <input
           type="number"

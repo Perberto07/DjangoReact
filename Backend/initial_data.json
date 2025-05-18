@@ -4,7 +4,8 @@
 
 
 
-  {"model": "api.category", "pk": 1, "fields": {}},
+  {"model": "api.category", "pk": 1, "fields": {"category_name": "Biscuit"}},
+  {"model": "api.category", "pk": 2, "fields": {"category_name": "Coffee"}},
 
 
 

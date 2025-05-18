@@ -15,20 +15,24 @@ const ProductPanel = () => {
     fetchProducts();
   }, []);
 
-const fetchProducts = async () => {
-  try {
-    const data = await getProducts(); // this is already the array
-    setProducts(Array.isArray(data) ? data : []);
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    setProducts([]);
-  }
-};
+  const fetchProducts = async () => {
+    try {
+      const data = await getProducts();
+      setProducts(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      setProducts([]);
+    }
+  };
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
-      await deleteProduct(id);
-      fetchProducts();
+      try {
+        await deleteProduct(id);
+        await fetchProducts();
+      } catch (error) {
+        console.error('Error deleting product:', error);
+      }
     }
   };
 
@@ -50,9 +54,13 @@ const fetchProducts = async () => {
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-    await updateProduct(editingId, editForm);
-    setEditingId(null);
-    fetchProducts();
+    try {
+      await updateProduct(editingId, editForm);
+      setEditingId(null);
+      await fetchProducts();
+    } catch (error) {
+      console.error('Error updating product:', error);
+    }
   };
 
   return (
@@ -63,7 +71,7 @@ const fetchProducts = async () => {
           <tr>
             <th>Name</th>
             <th>Price</th>
-            <th>Category ID</th>
+            <th>Category</th>
             <th>Actions</th>
           </tr>
         </thead>
