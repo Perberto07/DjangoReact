@@ -1,0 +1,44 @@
+[
+
+  {"model": "auth.user", "pk": 1, "fields": {"password": "pbkdf2_sha256$1000000$nyD5fD1reB5u4IsinyuSdP$cCzB5/v4/Qtz+t29DTjLFyfqdKJ3ENRCcNOcvL5ZDSI=", "last_login": "2025-05-17T12:53:01.039Z", "is_superuser": true, "username": "perberto", "first_name": "", "last_name": "", "email": "", "is_staff": true, "is_active": true, "date_joined": "2025-05-16T02:40:28.944Z", "groups": [], "user_permissions": []}},
+
+
+
+  {"model": "api.category", "pk": 1, "fields": {}},
+
+
+
+  {"model": "api.product", "pk": 1, "fields": {"product_name": "Rebis", "product_price": "34.00", "product_category": 1}},
+
+  {"model": "api.product", "pk": 2, "fields": {"product_name": "Fita", "product_price": "40.00", "product_category": 1}},
+
+  {"model": "api.product", "pk": 3, "fields": {"product_name": "Hansel", "product_price": "50.00", "product_category": 1}},
+
+  {"model": "api.product", "pk": 4, "fields": {"product_name": "wala", "product_price": "50.00", "product_category": 1}},
+
+  {"model": "api.product", "pk": 5, "fields": {"product_name": "wlaa", "product_price": "12.00", "product_category": 1}},
+
+  {"model": "api.product", "pk": 6, "fields": {"product_name": "meron", "product_price": "13.00", "product_category": 1}},
+
+
+
+  {"model": "api.customer", "pk": 1, "fields": {"customer_name": "Banda", "customer_address": "blk 6 baseco", "customer_number": 9675061551}},
+
+  {"model": "api.customer", "pk": 2, "fields": {"customer_name": "Customer", "customer_address": "Baseco", "customer_number": null}},
+
+  {"model": "api.customer", "pk": 3, "fields": {"customer_name": "Evelyn", "customer_address": "342sdfsd", "customer_number": -1}},
+
+  {"model": "api.customer", "pk": 4, "fields": {"customer_name": "Evelyn", "customer_address": "NO Address", "customer_number": 0}},
+
+  {"model": "api.customer", "pk": 7, "fields": {"customer_name": "wala", "customer_address": null, "customer_number": null}},
+
+  {"model": "api.customer", "pk": 8, "fields": {"customer_name": "asd", "customer_address": "wa", "customer_number": 1}},
+
+  {"model": "api.customer", "pk": 9, "fields": {"customer_name": "wa", "customer_address": "", "customer_number": 4}},
+
+  {"model": "api.customer", "pk": 10, "fields": {"customer_name": "wasda", "customer_address": null, "customer_number": null}},
+
+  {"model": "api.customer", "pk": 11, "fields": {"customer_name": "banda", "customer_address": "baseco", "customer_number": 29032}}
+
+]
+
