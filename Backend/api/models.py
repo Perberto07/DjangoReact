@@ -19,7 +19,7 @@ class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
     customer_name = models.CharField(max_length=40)
     customer_address = models.CharField(max_length=100, null=True, blank=True)
-    customer_number = models.IntegerField(max_length=11, null=True, blank=True)
+    customer_number = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.customer_name

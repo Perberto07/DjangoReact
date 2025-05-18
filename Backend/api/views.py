@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 
 
-class ProductViewSet(viewsets.ViewSet):
+class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -48,17 +48,12 @@ class ProductViewSet(viewsets.ViewSet):
         else:
             return Response(serializer.errors, status=400)        
         
-    def delete(self, request, pk=None):
+    def destroy(self, request, pk=None):
         product = get_object_or_404(self.queryset, pk=pk)
         product.delete()
 
     
-
-
-
-
-
-class CustomerViewSet(viewsets.ViewSet):
+class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     permission_classes = [permissions.AllowAny]
