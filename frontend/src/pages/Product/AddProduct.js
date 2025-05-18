@@ -2,12 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import { createProduct } from '../../services/ProductServices';
 import { getCategory } from '../../services/CategoryServices'; // make sure path is correct
+import BarcodeScanner from "./BarcodeScanner";
 
 const AddProduct = () => {
   const [formData, setFormData] = useState({
     product_name: '',
     product_category: '',
     product_price: '',
+    product_barcode: '', // <-- Add this line
   });
 
   const [categories, setCategories] = useState([]);
@@ -34,22 +36,47 @@ const AddProduct = () => {
     });
   };
 
+
+
+  const handleBarcodeScanned = (barcode) => {
+    console.log("Scanned Barcode:", barcode); // keep this
+    setFormData({ ...formData, product_barcode: barcode });
+  };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const categoryId = parseInt(formData.product_category, 10);
+
+    if (!formData.product_name || !formData.product_price || !categoryId) {
+      setMessage('Please fill in all fields correctly.');
+      return;
+    }
+
     try {
-      await createProduct(formData);
+      const dataToSend = {
+        product_name: formData.product_name,
+        product_price: parseFloat(formData.product_price),
+        product_category: categoryId,
+      };
+
+      console.log("Sending to backend:", dataToSend);
+
+      await createProduct(dataToSend);
       setMessage('Product added successfully!');
       setFormData({
         product_name: '',
         product_category: '',
         product_price: '',
+        product_barcode: '', // clear barcode after submission
       });
     } catch (error) {
-      console.error('Error adding product:', error);
+      console.error('Error adding product:', error.response?.data || error.message);
       setMessage('Failed to add product.');
     }
   };
+
 
   return (
     <div>
@@ -72,13 +99,23 @@ const AddProduct = () => {
           onChange={handleChange}
           required
         >
-          <option value="">-- Select Category --</option>
+          <option value="">Select Category</option>
           {categories.map((category) => (
             <option key={category.id} value={category.id}>
               {category.category_name}
             </option>
           ))}
-        </select><br />
+
+        </select>
+
+        <BarcodeScanner onScanned={handleBarcodeScanned} />
+        <input
+          type="text"
+          name="product_barcode"
+          placeholder="Scan barcode"
+          value={formData.product_barcode}
+          onChange={handleChange}
+        />
 
         <input
           type="number"
