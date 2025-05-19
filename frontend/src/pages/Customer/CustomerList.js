@@ -1,6 +1,7 @@
 // src/components/ProductList.jsx
 import React, { useEffect, useState } from 'react';
 import { getCustomer } from '../../services/CustomerServices';
+import Cards from '../../components/card/Cards';
 
 
 
@@ -31,12 +32,14 @@ const CustomerList = () => {
       ) : customers.length === 0 ? (
         <p>No customer found.</p>
       ) : (
-        <ul>
+        <ul className='grid grid-cols-1 md:grid-cols-3 gap-4'>
           {customers.map((customer) => (
             <li key={customer.customer_id}>
+              <Cards>
               <p>Customer Name: {customer.customer_name}</p>
               <p>Customer address: {customer.customer_address}</p>
               <p>Customer Number: {customer.customer_number}</p>
+              </Cards>
             </li>
           ))}   
         </ul>

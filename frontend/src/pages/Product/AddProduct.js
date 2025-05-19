@@ -86,7 +86,7 @@ const AddProduct = () => {
         Add Product
       </h2>
       {message && <p>{message}</p>}
-      <form onSubmit={handleSubmit} className='bg-gray-300 p-10 shadow-md rounded-md space-x-3 space-y-2'>
+      <form onSubmit={handleSubmit} className='bg-[#FDFDFD] p-10 shadow-md rounded-md space-x-3 space-y-2'>
         <div className='space-y-1 flex flex-col items-center'>
           <BarcodeScanner onScanned={handleBarcodeScanned} />
           <input
@@ -107,7 +107,7 @@ const AddProduct = () => {
             value={formData.product_name}
             onChange={handleChange}
             required
-            className='p-1 rounded-sm border border-gray-200'
+            className='p-2 rounded-md border border-gray-300 hover:border-blue-500'
           />
 
           <label for="product_price">Price:</label>
@@ -118,7 +118,7 @@ const AddProduct = () => {
             value={formData.product_price}
             onChange={handleChange}
             required
-            className='p-1 rounded-sm border border-gray-200'
+            className='p-2 rounded-md border border-gray-300 hover:border-blue-500'
           />
           {/* Category dropdown */}
           <label for="product_categoty">Category:</label>
@@ -127,7 +127,7 @@ const AddProduct = () => {
             value={formData.product_category}
             onChange={handleChange}
             required
-            className='p-1 rounded-sm border border-gray-200'
+            className='p-2 rounded-md border border-gray-300 hover:border-blue-500'
           >
             <option value="">Select Category</option>
             {categories.map((category) => (
