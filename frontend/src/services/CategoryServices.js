@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://192.168.0.139:8000/category/';
+const API_URL = 'http://192.168.68.11:8000/category/';
 
 export const getCategory = async () => {
     const response = await axios.get(API_URL);

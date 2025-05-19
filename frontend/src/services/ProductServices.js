@@ -1,7 +1,7 @@
 // src/services/productService.js
 import axios from 'axios';
 
-const API_URL = 'http://192.168.0.139:8000/product/'; // Change to your actual API URL
+const API_URL = 'http://192.168.68.11:8000/product/'; // Change to your actual API URL
 
 export const getProducts = async () => {
   const response = await axios.get(API_URL);
