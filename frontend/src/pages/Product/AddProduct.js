@@ -1,15 +1,17 @@
 // src/components/AddProduct.jsx
 import React, { useState, useEffect } from 'react';
 import { createProduct } from '../../services/ProductServices';
-import { getCategory } from '../../services/CategoryServices'; // make sure path is correct
+import { getCategory } from '../../services/CategoryServices';
 import BarcodeScanner from "./BarcodeScanner";
+import Button from '../../components/Button/button';
+import { ArrowRightToLine } from 'lucide-react';
 
 const AddProduct = () => {
   const [formData, setFormData] = useState({
     product_name: '',
     product_category: '',
     product_price: '',
-    product_barcode: '', // <-- Add this line
+    product_barcode: '',
   });
 
   const [categories, setCategories] = useState([]);
@@ -79,54 +81,66 @@ const AddProduct = () => {
 
 
   return (
-    <div>
-      <h2>Add Product</h2>
+    <div className='max-w-screen-md flex flex-col items-center md:min-w-full'>
+      <h2 className='py-2 font-extrabold size-16 flex flex-row items-center w-40 '>
+        Add Product
+      </h2>
       {message && <p>{message}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="product_name"
-          placeholder="Product Name"
-          value={formData.product_name}
-          onChange={handleChange}
-          required
-        /><br />
+      <form onSubmit={handleSubmit} className='bg-gray-300 p-10 shadow-md rounded-md space-x-3 space-y-2'>
+        <div className='space-y-1 flex flex-col items-center'>
+          <BarcodeScanner onScanned={handleBarcodeScanned} />
+          <input
+            type="text"
+            name="product_barcode"
+            placeholder="Scan barcode"
+            value={formData.product_barcode}
+            onChange={handleChange}
+          /><br />
+        </div>
 
-        {/* Category dropdown */}
-        <select
-          name="product_category"
-          value={formData.product_category}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Category</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.category_name}
-            </option>
-          ))}
+        <div className='flex flex-col grid-cols-2'>
+          <label for="product_name">Product Name: </label>
+          <input
+            type="text"
+            name="product_name"
+            placeholder="Product Name"
+            value={formData.product_name}
+            onChange={handleChange}
+            required
+            className='p-1 rounded-sm border border-gray-200'
+          />
 
-        </select>
-
-        <BarcodeScanner onScanned={handleBarcodeScanned} />
-        <input
-          type="text"
-          name="product_barcode"
-          placeholder="Scan barcode"
-          value={formData.product_barcode}
-          onChange={handleChange}
-        />
-
-        <input
-          type="number"
-          name="product_price"
-          placeholder="Price"
-          value={formData.product_price}
-          onChange={handleChange}
-          required
-        /><br />
-
-        <button type="submit">Add Product</button>
+          <label for="product_price">Price:</label>
+          <input
+            type="number"
+            name="product_price"
+            placeholder="Price"
+            value={formData.product_price}
+            onChange={handleChange}
+            required
+            className='p-1 rounded-sm border border-gray-200'
+          />
+          {/* Category dropdown */}
+          <label for="product_categoty">Category:</label>
+          <select
+            name="product_category"
+            value={formData.product_category}
+            onChange={handleChange}
+            required
+            className='p-1 rounded-sm border border-gray-200'
+          >
+            <option value="">Select Category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.category_name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <Button variant='submit' className='flex flex-row items-center gap-2'>
+          <span>Submit</span>
+          <ArrowRightToLine size={18} />
+        </Button>
       </form>
     </div>
   );
