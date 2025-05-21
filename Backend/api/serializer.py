@@ -28,8 +28,8 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ['product_name', 'product_price', 'quantity']
 
 class TransactionSerializer(serializers.ModelSerializer):
-    customer = CustomerSerializer(write_only=True)
-    transactions = OrderSerializer(many=True, write_only=True)
+    customer = CustomerSerializer(read_only=True)
+    order_items = OrderSerializer(many=True, read_only=True)
     class Meta:
         model = Transactions
-        fields = ['transaction_id', 'customer', 'create_at','transactions' ]   
+        fields = ['transaction_id', 'customer', 'create_at','order_items' ]   

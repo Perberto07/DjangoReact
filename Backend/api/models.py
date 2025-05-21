@@ -31,7 +31,7 @@ class Transactions(models.Model):
     transaction_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     create_at = models.DateTimeField(auto_now_add=True)
-    products = models.ManyToManyField(Product, through='Order', related_name='transactions')
+    products = models.ManyToManyField(Product, through='Order', related_name='orders')
 
     def get_total(self, orders):
         return f'Total: {sum(self.orders.item_subtotal)}'
@@ -40,7 +40,7 @@ class Transactions(models.Model):
         return f'Order {self.transaction_id} by {self.customer}'
     
 class Order(models.Model):
-    items = models.ForeignKey(Transactions, on_delete=models.CASCADE, related_name='transactions')
+    items = models.ForeignKey(Transactions, on_delete=models.CASCADE, related_name='order_items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
 
