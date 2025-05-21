@@ -7,6 +7,7 @@ router = DefaultRouter()
 router.register('product', ProductViewSet, basename='product' )
 router.register('customer', CustomerViewSet, basename='customer' )
 router.register('category', CategoryViewSet, basename='category' )
+router.register('transaction', TransactionViewSet, basename='transaction' )
 urlpatterns = router.urls
 
 #app_name= 'api'
