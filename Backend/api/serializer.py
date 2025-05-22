@@ -28,8 +28,20 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ['product_name', 'product_price', 'quantity']
 
 class TransactionSerializer(serializers.ModelSerializer):
-    customer = CustomerSerializer(read_only=True)
-    order_items = OrderSerializer(many=True, read_only=True)
+    customer = serializers.SlugRelatedField(
+                    queryset=Customer.objects.all(),
+                    slug_field='customer_name')
+    order_items = OrderSerializer(many=True)
     class Meta:
         model = Transactions
         fields = ['transaction_id', 'customer', 'create_at','order_items' ]   
+        
+    def create(self, validated_data):
+        order_items_data = validated_data.pop('order_items')
+        transaction = Transactions.objects.create(**validated_data)
+        
+        # Create each order item linked to the transaction
+        for item_data in order_items_data:
+            Order.objects.create(transaction=transaction, **item_data)
+
+        return transaction
