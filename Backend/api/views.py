@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from .models import Product, Customer, Category
-from .serializer import ProductSerializer, CustomerSerializer, CategorySerializer
+from .models import Product, Customer, Category, Transactions
+from .serializer import ProductSerializer, CustomerSerializer, CategorySerializer, TransactionSerializer
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 
@@ -144,4 +144,14 @@ class CustomerViewSet(viewsets.ModelViewSet):
         customer = get_object_or_404(self.queryset, pk=pk)
         customer.delete()
 
+    
+class TransactionViewSet(viewsets.ModelViewSet):
+    queryset = Transactions.objects.all()
+    serializer_class = TransactionSerializer
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+        
     
