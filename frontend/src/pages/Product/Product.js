@@ -17,7 +17,7 @@ const Product = () => {
       case 'productpanel':
         return <ProductPanel />;
       default:
-        return <div>Select a panel</div>;
+        return <ProductList />;
     }
   };
   return (

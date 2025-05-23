@@ -32,7 +32,7 @@ const CustomerList = () => {
       ) : customers.length === 0 ? (
         <p>No customer found.</p>
       ) : (
-        <ul className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+        <ul className='grid grid-cols-1 md:grid-cols-4 gap-4'>
           {customers.map((customer) => (
             <li key={customer.customer_id}>
               <Cards>

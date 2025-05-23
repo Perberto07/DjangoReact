@@ -17,7 +17,7 @@ const Customer = () => {
       case 'customerpanel':
         return <CustomerPanel />;
       default:
-        return <div>Select a panel</div>;
+        return <CustomerList /> ;
     }
   };
   return (

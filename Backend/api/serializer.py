@@ -20,28 +20,26 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product.product_name')
-    product_price = serializers.DecimalField(max_digits=5, 
+    product_price = serializers.DecimalField(max_digits=10, 
                                              decimal_places=2,
                                              source='product.product_price')
     class Meta:
         model = Order
-        fields = ['product_name', 'product_price', 'quantity']
+        fields = ['product_name', 'product_price', 'quantity', 'item_subtotal']
 
 class TransactionSerializer(serializers.ModelSerializer):
     customer = serializers.SlugRelatedField(
                     queryset=Customer.objects.all(),
                     slug_field='customer_name')
     order_items = OrderSerializer(many=True)
+    
+    total_price = serializers.SerializerMethodField(method_name='total')
+    
+    def total(self, obj):
+        order_items =obj.order_items.all()
+        return sum(order_item.item_subtotal for order_item in order_items)
+    
     class Meta:
         model = Transactions
-        fields = ['transaction_id', 'customer', 'create_at','order_items' ]   
+        fields = ['transaction_id', 'customer', 'create_at','order_items', 'total_price' ]   
         
-    def create(self, validated_data):
-        order_items_data = validated_data.pop('order_items')
-        transaction = Transactions.objects.create(**validated_data)
-        
-        # Create each order item linked to the transaction
-        for item_data in order_items_data:
-            Order.objects.create(transaction=transaction, **item_data)
-
-        return transaction
