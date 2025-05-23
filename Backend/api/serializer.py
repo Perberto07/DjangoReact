@@ -25,7 +25,7 @@ class OrderSerializer(serializers.ModelSerializer):
                                              source='product.product_price')
     class Meta:
         model = Order
-        fields = ['product_name', 'product_price', 'quantity', 'item_subtotal']
+        fields = ['id','product_name', 'product_price', 'quantity', 'item_subtotal']
 
 class TransactionSerializer(serializers.ModelSerializer):
     customer = serializers.SlugRelatedField(
