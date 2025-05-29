@@ -40,6 +40,8 @@ class OrderWriteSerializer(serializers.ModelSerializer):
         fields = ['product', 'quantity']
 
 class TransactionSerializer(serializers.ModelSerializer):
+    transaction_id = serializers.UUIDField(read_only=True) 
+
     customer = serializers.SlugRelatedField(
         queryset=Customer.objects.all(),
         slug_field='customer_name'
@@ -55,7 +57,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transactions
-        fields = ['customer', 'create_at', 'order_items', 'order_items_read', 'total_price']
+        fields = ['transaction_id', 'customer', 'create_at', 'order_items', 'order_items_read', 'total_price']
 
     def create(self, validated_data):
         order_items_data = validated_data.pop('order_items')

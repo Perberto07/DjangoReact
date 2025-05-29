@@ -22,4 +22,9 @@ export const deleteProduct = async (id) => {
   const response = await axios.delete(`${API_URL}${id}/`); // <- Add trailing slash
   return response.data;
 };
+  
+export const getProductByBarcode = async (barcode) => {
+  const response = await axios.get(`${API_URL}by-barcode/?barcode=${barcode}`);
+  return response.data;
+};
 

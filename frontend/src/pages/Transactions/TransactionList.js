@@ -41,13 +41,13 @@ const TransactionList = () => {
                                 <p className="text-sm text-gray-800">Date: {new Date(transaction.create_at).toLocaleDateString()}</p>
                                 <div className="mt-2">
                                     <p className="font-semibold">Items:</p>
-                                    <ul className="ml-4 list-disc">
-                                        {transaction.order_items.map((item, index) => (
-                                            <li key={index}>
+                                    <ul className="ml-4 list-none">
+                                        {transaction.order_items_read.map((item, index) => (
+                                            <li key={index} className='border-b-[1px] border-gray-300'>
                                                 {item.product_name} — ₱{item.product_price} × {item.quantity} = {item.item_subtotal}
                                             </li>
                                         ))}
-                                    </ul><br />
+                                    </ul>
                                 </div>
                                 <p>Total price: {transaction.total_price}</p>
                                 <Button variant='submit' className='flex flex-row items-center gap-2'>

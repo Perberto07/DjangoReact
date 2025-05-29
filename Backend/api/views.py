@@ -2,9 +2,9 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from .models import Product, Customer, Category, Transactions
 from .serializer import ProductSerializer, CustomerSerializer, CategorySerializer, TransactionSerializer
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
-
+from rest_framework.decorators import action
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -51,6 +51,19 @@ class ProductViewSet(viewsets.ModelViewSet):
     def destroy(self, request, pk=None):
         product = get_object_or_404(self.queryset, pk=pk)
         product.delete()
+
+    @action(detail=False, methods=['get'], url_path='by-barcode')
+    def get_by_barcode(self, request):
+        barcode = request.query_params.get('barcode')
+        if not barcode:
+            return Response({'error': 'Barcode is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            product = Product.objects.get(product_barcode=barcode)      
+            serializer = self.get_serializer(product)
+            return Response(serializer.data)
+        except Product.DoesNotExist:
+            return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class CategoryViewSet(viewsets.ModelViewSet):

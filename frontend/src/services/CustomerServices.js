@@ -1,4 +1,3 @@
-// src/services/productService.js
 import axios from 'axios';
 
 const API_URL = 'http://127.0.0.1:8000/customer/'; // Change to your actual API URL

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { createProduct } from '../../services/ProductServices';
 import { getCategory } from '../../services/CategoryServices';
-import BarcodeScanner from "./BarcodeScanner";
+import BarcodeScanner from "../BarcodeScanner";
 import Button from '../../components/Button/button';
 import { ArrowRightToLine } from 'lucide-react';
 
