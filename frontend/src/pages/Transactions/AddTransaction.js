@@ -88,7 +88,7 @@ const AddTransaction = () => {
             {orderItems.map((item, index) => (
               <li key={index} className='py-1 border-b-2 border-gray-100'>
                 {item.product}
-                <span>Quantity:
+                <span> #
                   <input
                     type="number"
                     value={item.quantity}
@@ -96,6 +96,7 @@ const AddTransaction = () => {
                     onChange={(e) => handleQuantityChange(index, e.target.value)}
                     className="border px-2 mx-2 w-16"
                   /></span>
+                  
                 <button onClick={() => handleRemove(index)} className="text-red-500">X</button>
               </li>
             ))}
