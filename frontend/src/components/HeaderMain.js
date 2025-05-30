@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingBag, Users, PlusCircle, LogIn, Menu, X } from 'lucide-react';
+import { ShoppingBag, Users, ShoppingCart, LogIn, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const HeaderMain = () => {
@@ -31,8 +31,8 @@ const HeaderMain = () => {
               <Link to="/customer">Customer</Link>
             </li>
             <li className="flex items-center gap-2 hover:text-blue-400">
-              <PlusCircle size={16} />
-              <Link to="/transaction">Add Transaction</Link>
+              <ShoppingCart size={16} />
+              <Link to="/transaction">Transaction</Link>
             </li>
             <li className="flex items-center gap-2 hover:text-blue-400">
               <LogIn size={16} />
@@ -55,7 +55,7 @@ const HeaderMain = () => {
               <Link to="/customer">Customer</Link>
             </li>
             <li className="flex items-center gap-2 hover:text-blue-400">
-              <PlusCircle size={16} />
+              <ShoppingCart size={16} />
               <Link to="/transaction  ">Add Transaction</Link>
             </li>
             <li className="flex items-center gap-2 hover:text-blue-400">

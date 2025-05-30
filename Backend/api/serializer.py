@@ -35,6 +35,10 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ['id','product_name', 'product_price', 'quantity', 'item_subtotal']
         
 class OrderWriteSerializer(serializers.ModelSerializer):
+    product = serializers.SlugRelatedField(
+        queryset = Product.objects.all(),
+        slug_field='product_name'
+    )
     class Meta:
         model = Order
         fields = ['product', 'quantity']
