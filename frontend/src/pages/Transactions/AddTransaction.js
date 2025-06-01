@@ -15,16 +15,35 @@ const AddTransaction = () => {
   const [manualQty, setManualQty] = useState(1);
 
   const handleScan = async (barcode) => {
-    if (scannedBarcodes.has(barcode)) return;
+    if (scannedBarcodes.has(barcode)) return; // prevent duplicate scan
+
     try {
       const product = await getProductByBarcode(barcode);
-      const newItem = { product: product.product_name, quantity: 1 };
-      setOrderItems((prev) => [...prev, newItem]);
-      setScannedBarcodes((prev) => new Set(prev).add(barcode));
+
+      setOrderItems((prevItems) => {
+        const index = prevItems.findIndex(item => item.product === product.product_name);
+
+        if (index !== -1) {
+          const updatedItems = [...prevItems];
+          updatedItems[index].quantity += 1;
+          return updatedItems;
+        } else {
+          return [...prevItems, {
+            product: product.product_name,
+            quantity: 1,
+            product_price: parseFloat(product.product_price),
+          }];
+        }
+      });
+
+      // Add barcode after updating quantity or adding new product
+      setScannedBarcodes(prev => new Set(prev).add(barcode));
+
     } catch (err) {
       console.error("Product not found", err);
     }
   };
+
 
   const handleQuantityChange = (index, newQty) => {
     const updated = [...orderItems];
@@ -42,7 +61,10 @@ const AddTransaction = () => {
     try {
       await createTransaction({
         customer,
-        order_items: orderItems,
+        order_items: orderItems.map(item => ({
+          product: item.product,
+          quantity: item.quantity
+        })),
       });
       alert('Transaction created!');
       setOrderItems([]);
@@ -64,12 +86,34 @@ const AddTransaction = () => {
 
   const addManualItem = () => {
     if (!selectedProduct || manualQty < 1) return;
-    const newItem = { product: selectedProduct, quantity: manualQty };
-    setOrderItems((prev) => [...prev, newItem]);
+
+    setOrderItems((prevItems) => {
+      const index = prevItems.findIndex(item => item.product === selectedProduct.product_name);
+
+      if (index !== -1) {
+        // Increment quantity by manualQty exactly
+        const updatedItems = [...prevItems];
+        updatedItems[index].quantity += manualQty;
+        return updatedItems;
+      } else {
+        // Add new product with quantity manualQty
+        return [
+          ...prevItems,
+          {
+            product: selectedProduct.product_name,
+            quantity: manualQty,
+            product_price: parseFloat(selectedProduct.product_price),
+          }
+        ];
+      }
+    });
+
     setShowModal(false);
     setManualQty(1);
     setSelectedProduct(null);
   };
+
+
 
   return (
     <div className="w-full grid grid-cols-1 md:flex flex-row space-x-3">
@@ -82,26 +126,39 @@ const AddTransaction = () => {
           <CustomerDropdown onSelect={setCustomer} />
         </div>
 
-        <div className=' flex flex-col justify-center items-center bg-white shadow-md p-2 rounded-md'>
+        <div className='flex flex-col justify-center items-center bg-white shadow-md p-2 rounded-md w-full'>
           <h3 className="text-lg font-semibold mt-4 mb-3">Order Items</h3>
-          <ul className="list-none">
-            {orderItems.map((item, index) => (
-              <li key={index} className='py-1 border-b-2 border-gray-100'>
-                {item.product}
-                <span> #
-                  <input
-                    type="number"
-                    value={item.quantity}
-                    min={1}
-                    onChange={(e) => handleQuantityChange(index, e.target.value)}
-                    className="border px-2 mx-2 w-16"
-                  /></span>
-                  
-                <button onClick={() => handleRemove(index)} className="text-red-500">X</button>
-              </li>
-            ))}
+          <ul className="list-none w-full">
+            {orderItems.map((item, index) => {
+              const subtotal = item.quantity * item.product_price;
+              return (
+                <li key={index} className='py-1 border-b-2 border-gray-100 flex justify-between items-center'>
+                  <div>
+                    <div className="font-semibold">{item.product}</div>
+                    <div className="text-sm text-gray-600">₱{item.product_price.toFixed(2)} each</div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="number"
+                      value={item.quantity}
+                      min={1}
+                      onChange={(e) => handleQuantityChange(index, e.target.value)}
+                      className="border px-2 w-16"
+                    />
+                    <span className="font-semibold text-gray-700">₱{subtotal.toFixed(2)}</span>
+                    <button onClick={() => handleRemove(index)} className="text-red-500 font-bold">X</button>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
+
+          {/* Total Price */}
+          <div className="text-right font-bold text-lg mt-4 w-full">
+            Total: ₱{orderItems.reduce((acc, item) => acc + item.quantity * item.product_price, 0).toFixed(2)}
+          </div>
         </div>
+
 
         <div className='flex mt-3 justify-around'>
           <button onClick={openModal} className="bg-green-600 text-white px-4 py-2 rounded">
@@ -123,8 +180,11 @@ const AddTransaction = () => {
           <div className="bg-white p-6 rounded shadow-lg w-96">
             <h3 className="text-lg font-bold mb-4">Add Product Manually</h3>
             <select
-              value={selectedProduct || ''}
-              onChange={(e) => setSelectedProduct(e.target.value)}
+              value={selectedProduct ? selectedProduct.product_name : ''}
+              onChange={(e) => {
+                const selected = allProducts.find(p => p.product_name === e.target.value);
+                setSelectedProduct(selected);
+              }}
               className="w-full border mb-3 p-2"
             >
               <option value="">Select a product</option>
