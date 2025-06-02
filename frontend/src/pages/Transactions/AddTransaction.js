@@ -3,20 +3,20 @@ import BarcodeScanner from '../BarcodeScanner';
 import { createTransaction } from '../../services/TransactionServices';
 import CustomerDropdown from '../Customer/CustomerDropDown';
 import { getProductByBarcode, getProducts } from '../../services/ProductServices'; // Ensure this exists
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddTransaction = () => {
   const [orderItems, setOrderItems] = useState([]);
   const [customer, setCustomer] = useState('');
   const [scannedBarcodes, setScannedBarcodes] = useState(new Set());
-
   const [showModal, setShowModal] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [manualQty, setManualQty] = useState(1);
-
+  
   const handleScan = async (barcode) => {
     if (scannedBarcodes.has(barcode)) return; // prevent duplicate scan
-
     try {
       const product = await getProductByBarcode(barcode);
 
@@ -66,9 +66,9 @@ const AddTransaction = () => {
           quantity: item.quantity
         })),
       });
-      alert('Transaction created!');
       setOrderItems([]);
       setScannedBarcodes(new Set());
+      toast.success("Transaction created!");
     } catch (err) {
       console.error("Error submitting transaction", err);
     }
@@ -88,30 +88,35 @@ const AddTransaction = () => {
     if (!selectedProduct || manualQty < 1) return;
 
     setOrderItems((prevItems) => {
-      const index = prevItems.findIndex(item => item.product === selectedProduct.product_name);
+      const updatedItems = [...prevItems];
+      const index = updatedItems.findIndex(item => item.product === selectedProduct.product_name);
 
       if (index !== -1) {
-        // Increment quantity by manualQty exactly
-        const updatedItems = [...prevItems];
-        updatedItems[index].quantity += manualQty;
+        // Prevent unintended double increments
+        updatedItems[index] = {
+          ...updatedItems[index],
+          quantity: updatedItems[index].quantity + manualQty
+        };
         return updatedItems;
       } else {
-        // Add new product with quantity manualQty
         return [
-          ...prevItems,
+          ...updatedItems,
           {
             product: selectedProduct.product_name,
             quantity: manualQty,
             product_price: parseFloat(selectedProduct.product_price),
           }
+
         ];
       }
     });
-
+    console.log("Manual add", selectedProduct.product_name, "Qty:", manualQty);
+    // Reset modal state
     setShowModal(false);
     setManualQty(1);
     setSelectedProduct(null);
   };
+
 
 
 
@@ -127,6 +132,7 @@ const AddTransaction = () => {
         </div>
 
         <div className='flex flex-col justify-center items-center bg-white shadow-md p-2 rounded-md w-full'>
+
           <h3 className="text-lg font-semibold mt-4 mb-3">Order Items</h3>
           <ul className="list-none w-full">
             {orderItems.map((item, index) => {
@@ -208,6 +214,7 @@ const AddTransaction = () => {
           </div>
         </div>
       )}
+      <ToastContainer position="top-center" autoClose={3000} />
     </div>
   );
 };
