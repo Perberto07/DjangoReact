@@ -139,7 +139,7 @@ const ProductPanel = () => {
                       </button>
                       <button
                         onClick={() => handleDelete(p.product_id)}
-                        className="bg-[#e02f2f] text-black hover:bg-[#b53b3b px-3 py-1 rounded"
+                        className="bg-[#e02f2f] text-black hover:bg-[#b53b3b] px-3 py-1 rounded"
                       >Delete
                       </button>
                     </>
