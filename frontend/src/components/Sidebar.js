@@ -1,43 +1,52 @@
 // components/Sidebar.js
-import { ShoppingBag, Users, PlusCircle ,Menu, X} from 'lucide-react'; // Optional: for icons
-import React,{useState} from 'react';
+import { ShoppingBag, Users, PlusCircle, Menu, X } from 'lucide-react';
+import React, { useState } from 'react';
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <div className='w-55 h-screen bg-gray-800 text-white shadow-lg'>
-    <button
-      className="lg:hidden text-gray-300"
-      onClick={() => setIsOpen(!isOpen)}
-      arial-label='toggle navigation'>
-        {isOpen? <X size={24}/> : <Menu size= {24}/>}
-    </button>
-    <aside className={`${isOpen ? 'block': 'hidden'}`}>
-      
-      <div className=''>
-        <div className="p-6 text-xl font-bold border-b border-gray-700">
+    <>
+      {/* Toggle Button - Visible only on mobile */}
+      <button
+        className="md:hidden fixed top-4 left-4 z-50 text-gray-300 bg-gray-800 p-2 rounded"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="toggle navigation"
+      >
+        {isOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+
+      {/* Sidebar */}
+      <aside
+        className={`
+          fixed top-0 left-0 h-full bg-gray-800 text-white shadow-lg z-40 
+          w-56 transform transition-transform duration-300 ease-in-out
+          ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
+          md:translate-x-0 md:relative md:h-screen
+        `}
+      >
+        <div className="sm:ml-9 pt-5 pl-6 mb-5 text-xl font-bold border-b border-gray-700">
           Dashboard
         </div>
 
-        <nav className=''>
-          <ul className="space-y-4">
+        <nav>
+          <ul className="space-y-4 pl-6">
             <li className="flex items-center gap-2 hover:text-blue-400 cursor-pointer">
               <ShoppingBag size={18} />
-              Product
+              Reports
             </li>
-            <li className="flex items-center gap-2 hover:text-blue-400 cursor-pointer">   
+            <li className="flex items-center gap-2 hover:text-blue-400 cursor-pointer">
               <Users size={18} />
-              Customer
+              Transaction
             </li>
             <li className="flex items-center gap-2 hover:text-blue-400 cursor-pointer">
               <PlusCircle size={18} />
-              Add Transaction
+              Logout
             </li>
           </ul>
         </nav>
-      </div>
-    </aside>
-    </div>
+      </aside>
+    </>
   );
 };
 
