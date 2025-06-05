@@ -1,9 +1,15 @@
 GET http://127.0.0.1:8000/product/1 HTTP/1.1
 content-type: application/json
 
+###
 PUT http://127.0.0.1:8000/transaction/ HTTP/1.1
 Content-Type: application/json
 
-{
+###
+POST http://localhost:8000/api/token/ HTTP/1.1
+Content-Type: application/json
 
-}s
+{
+  "username": "perberto",
+  "password": "perberto07"
+}
