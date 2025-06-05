@@ -1,9 +1,23 @@
-// components/Sidebar.js
 import { ShoppingBag, Users, PlusCircle, Menu, X } from 'lucide-react';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Clear tokens
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+
+    // Clear Axios auth header if you are using axios globally
+    // import axios from 'axios'; at the top if not already
+    // axios.defaults.headers.common['Authorization'] = null;
+
+    // Redirect to login page
+    navigate('/login');
+  };
 
   return (
     <>
@@ -39,7 +53,10 @@ const Sidebar = () => {
               <Users size={18} />
               Transaction
             </li>
-            <li className="flex items-center gap-2 hover:text-blue-400 cursor-pointer">
+            <li
+              className="flex items-center gap-2 hover:text-blue-400 cursor-pointer"
+              onClick={handleLogout}
+            >
               <PlusCircle size={18} />
               Logout
             </li>
