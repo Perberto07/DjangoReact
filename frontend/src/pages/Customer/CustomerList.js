@@ -51,7 +51,7 @@ const CustomerList = () => {
           )
           .map((customer) => (
             <li key={customer.customer_id}>
-              <Cards className='border border-blue-200 hover:border-blue-500 rounded shadow-md'>
+              <Cards className='border border-red-200 hover:border-red-500 rounded shadow-orange-400'>
               <p>Customer Name: {customer.customer_name}</p>
               <p>Customer address: {customer.customer_address}</p>
               <p>Customer Number: {customer.customer_number}</p>

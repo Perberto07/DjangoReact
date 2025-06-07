@@ -50,12 +50,12 @@ const ProductList = () => {
             )
             .map((product) => (
               <li key={product.product_id}>
-                <Cards>
+                <Cards className='border border-red-200 hover:border-red-500 rounded-md shadow-orange-400 '>
                   <p className="text-lg font-bold">{product.product_name}</p>
                   <p className="text-sm text-gray-600">Category: {product.product_category}</p>
                   <p className="text-sm text-gray-800 font-medium">Price: ₱{product.product_price}</p>
                   <p className="text-sm text-gray-800 font-medium">{product.product_category_name}</p>
-                  <p className="text-sm text-gray-800 font-medium">{product.product_barcode}</p>
+                  <p className="text-sm text-gray-800 font-medium">QR code: {product.product_barcode}</p>
                 </Cards>
               </li>
             ))}
