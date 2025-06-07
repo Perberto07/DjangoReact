@@ -28,8 +28,12 @@ const Login = () => {
 
   return (
     <MainLayout>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
+      <div className='bg-white h-2/5 p-6 rounded-lg border border-blue-200 shadow-orange-200 max-w-md  mx-auto mt-20 '>
+
+      <h1 className='text-black text-center text-[2rem] font-medium mb-5'>Login</h1>
+
+      <form onSubmit={handleLogin}
+            className='text-center flex flex-col gap-4'>
         <div>
           <label>Username:</label><br />
           <input
@@ -37,6 +41,7 @@ const Login = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            className='w-full p-2 border rounded-md'
           />
         </div>
         <div>
@@ -46,10 +51,14 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+             className='w-full p-2 border rounded-md'
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" className='mr-15 ml-15 bg-blue-500  text-white px-4 py-2 rounded-md mt-4 hover:bg-blue-600'>
+          Login
+        </button>
       </form>
+      </div>
     </MainLayout>
   );
 };
