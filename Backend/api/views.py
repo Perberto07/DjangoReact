@@ -116,7 +116,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def list(self, request):
         queryset = self.get_queryset()
