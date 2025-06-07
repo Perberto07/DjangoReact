@@ -5,6 +5,7 @@ import CustomerDropdown from '../Customer/CustomerDropDown';
 import { getProductByBarcode, getProducts } from '../../services/ProductServices'; // Ensure this exists
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Select from 'react-select';
 
 const AddTransaction = () => {
   const [orderItems, setOrderItems] = useState([]);
@@ -14,7 +15,7 @@ const AddTransaction = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [manualQty, setManualQty] = useState(1);
-  
+
   const handleScan = async (barcode) => {
     if (scannedBarcodes.has(barcode)) return; // prevent duplicate scan
     try {
@@ -117,6 +118,11 @@ const AddTransaction = () => {
     setSelectedProduct(null);
   };
 
+  const options = allProducts.map(prod => ({
+    value: prod.product_id,
+    label: `${prod.product_name} - ₱${prod.product_price}`,
+    data: prod, 
+  }));
 
 
 
@@ -185,21 +191,21 @@ const AddTransaction = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded shadow-lg w-96">
             <h3 className="text-lg font-bold mb-4">Add Product Manually</h3>
-            <select
-              value={selectedProduct ? selectedProduct.product_name : ''}
-              onChange={(e) => {
-                const selected = allProducts.find(p => p.product_name === e.target.value);
-                setSelectedProduct(selected);
+
+            <Select
+              options={options}
+              onChange={(selectedOption) => {
+                setSelectedProduct(selectedOption?.data || null);
               }}
-              className="w-full border mb-3 p-2"
-            >
-              <option value="">Select a product</option>
-              {allProducts.map((prod) => (
-                <option key={prod.product_id} value={prod.product_name}>
-                  {`${prod.product_name} - ₱${prod.product_price}`}
-                </option>
-              ))}
-            </select>
+              value={selectedProduct ? {
+                value: selectedProduct.product_id,
+                label: `${selectedProduct.product_name} - ₱${selectedProduct.product_price}`,
+              } : null}
+              className="mb-3"
+              isClearable
+              placeholder="Select a product..."
+            />
+
             <input
               type="number"
               min={1}

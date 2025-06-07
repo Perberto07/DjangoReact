@@ -1,4 +1,4 @@
-import { ShoppingBag, Users, PlusCircle, Menu, X } from 'lucide-react';
+import { FileCog, ShoppingCart, LogOut, Menu, X, ChartSpline } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,15 +8,15 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     // Clear tokens
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-
-    // Clear Axios auth header if you are using axios globally
-    // import axios from 'axios'; at the top if not already
-    // axios.defaults.headers.common['Authorization'] = null;
-
-    // Redirect to login page
-    navigate('/login');
+    if (window.confirm("Are you sure you want to logout?")) {
+      try {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        navigate('/login');
+      } catch (error) {
+        console.error("error Logging out:", error);
+      }
+    };
   };
 
   return (
@@ -39,25 +39,29 @@ const Sidebar = () => {
           md:translate-x-0 md:relative md:h-screen
         `}
       >
-        <div className="sm:ml-9 pt-5 pl-6 mb-5 text-xl font-bold border-b border-gray-700">
+        <div className="md:ml-0 ml-9 pt-5 pl-6 mb-5 text-xl font-bold border-b border-gray-700">
           Dashboard
         </div>
 
         <nav>
           <ul className="space-y-4 pl-6">
             <li className="flex items-center gap-2 hover:text-blue-400 cursor-pointer">
-              <ShoppingBag size={18} />
+              <ChartSpline size={18} />
               Reports
             </li>
             <li className="flex items-center gap-2 hover:text-blue-400 cursor-pointer">
-              <Users size={18} />
+              <FileCog size={18} />
+              Manage
+            </li>
+            <li className="flex items-center gap-2 hover:text-blue-400 cursor-pointer">
+              <ShoppingCart size={18} />
               Transaction
             </li>
             <li
               className="flex items-center gap-2 hover:text-blue-400 cursor-pointer"
               onClick={handleLogout}
             >
-              <PlusCircle size={18} />
+              <LogOut size={18} />
               Logout
             </li>
           </ul>

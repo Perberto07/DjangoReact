@@ -14,6 +14,7 @@ const ProductPanel = () => {
     product_category: '',
   });
   const [showModal, setShowModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     fetchProducts();
@@ -84,37 +85,52 @@ const ProductPanel = () => {
     <div className="p-6 bg-[#C6E7FF] min-h-screen rounded-md shadow-sm">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Product Panel</h2>
       <div className="overflow-x-auto">
+
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-3/6 px-4 py-2 border rounded"
+          />
+        </div>
+
         <table className="min-w-full bg-[#FBFBFB] shadow-md">
           <thead className="bg-[#FFDDAE] text-gray-700">
             <tr>
-              <th className="py-3 px-4 text-left">Name</th>
+              <th className="py-3 px-4 text-left">Product</th>
               <th className="py-3 px-4 text-left">Price</th>
               <th className="py-3 px-4 text-left">Category</th>
               <th className="py-3 px-4 text-left">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {products.map((p) => (
-              <tr key={p.product_id} className="border-b hover:bg-[#D4F6FF]">
-                <td className="py-2 px-4">{p.product_name}</td>
-                <td className="py-2 px-4">₱{parseFloat(p.product_price).toFixed(2)}</td>
-                <td className="py-2 px-4">{p.product_category}</td>
-                <td className="py-2 px-4 space-x-2">
-                  <button
-                    onClick={() => openEditModal(p)}
-                    className="bg-[#71da25] text-black hover:bg-[#65ac32] px-3 py-1 rounded"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(p.product_id)}
-                    className="bg-[#e02f2f] text-black hover:bg-[#b53b3b] px-3 py-1 rounded"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {products
+              .filter((p) =>
+                p.product_name.toLowerCase().includes(searchTerm.toLowerCase())
+              )
+              .map((p) => (
+                <tr key={p.product_id} className="border-b hover:bg-[#D4F6FF]">
+                  <td className="py-2 px-4">{p.product_name}</td>
+                  <td className="py-2 px-4">₱{parseFloat(p.product_price).toFixed(2)}</td>
+                  <td className="py-2 px-4">{p.product_category}</td>
+                  <td className="py-2 px-4 space-x-2">
+                    <button
+                      onClick={() => openEditModal(p)}
+                      className="bg-[#71da25] text-black hover:bg-[#65ac32] px-3 py-1 rounded"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(p.product_id)}
+                      className="bg-[#e02f2f] text-black hover:bg-[#b53b3b] px-3 py-1 rounded"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
@@ -183,7 +199,7 @@ const ProductPanel = () => {
           </div>
         </div>
       )}
-      <ToastContainer richColor position='top-center' autoClose={3000}/>
+      <ToastContainer richColor position='top-center' autoClose={3000} />
     </div>
   );
 };
