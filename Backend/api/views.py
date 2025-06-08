@@ -116,8 +116,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class CustomerViewSet(viewsets.ModelViewSet):
 
     queryset = Customer.objects.all().annotate(
-    upper_name=Upper('customer_name')
-).order_by('upper_name')
+    upper_name=Upper('customer_name')).order_by('upper_name')
     serializer_class = CustomerSerializer
     permission_classes = [permissions.AllowAny]
 

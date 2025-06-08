@@ -86,7 +86,8 @@ const AddProduct = () => {
         Add Product
       </h2>
       {message && <p>{message}</p>}
-      <form onSubmit={handleSubmit} className='bg-[#FDFDFD] p-10 shadow-md rounded-md space-x-3 space-y-2'>
+      <form onSubmit={handleSubmit} 
+            className='bg-[#FDFDFD] p-10 shadow shadow-blue-500 border border-blue-200 hover:border-blue-500 rounded-md space-x-3 space-y-2'>
         <div className='space-y-1 flex flex-col items-center'>
           <BarcodeScanner onScanned={handleBarcodeScanned} />
           <input

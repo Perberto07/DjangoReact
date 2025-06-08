@@ -3,6 +3,8 @@ import { getProducts, deleteProduct, updateProduct } from '../../services/Produc
 import { getCategory } from '../../services/CategoryServices'; // Import categories
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { SquarePen, Trash } from 'lucide-react';
+import EditProductModal from './EditProductModal';
 
 const ProductPanel = () => {
   const [products, setProducts] = useState([]);
@@ -118,15 +120,15 @@ const ProductPanel = () => {
                   <td className="py-2 px-4 space-x-2">
                     <button
                       onClick={() => openEditModal(p)}
-                      className="bg-[#71da25] text-black hover:bg-[#65ac32] px-3 py-1 rounded"
+                      className="bg-[#2696ff] ] px-3 py-1 rounded"
                     >
-                      Edit
+                      <SquarePen size={18} color='#ffffff' width={30} strokeWidth={1.5} />
                     </button>
                     <button
                       onClick={() => handleDelete(p.product_id)}
-                      className="bg-[#e02f2f] text-black hover:bg-[#b53b3b] px-3 py-1 rounded"
+                      className="bg-[#f73f3f] px-3 py-1 rounded"
                     >
-                      Delete
+                      <Trash size={18} color='#ffffff' width={30} />
                     </button>
                   </td>
                 </tr>
@@ -136,69 +138,13 @@ const ProductPanel = () => {
       </div>
 
       {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
-            <h3 className="text-xl font-semibold mb-4 text-gray-800">Edit Product</h3>
-            <form onSubmit={handleEditSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium">Name</label>
-                <input
-                  name="product_name"
-                  value={editForm.product_name}
-                  onChange={handleEditChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium">Price</label>
-                <input
-                  name="product_price"
-                  type="number"
-                  step="0.01"
-                  value={editForm.product_price}
-                  onChange={handleEditChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium">Category</label>
-                <select
-                  name="product_category"
-                  value={editForm.product_category}
-                  onChange={handleEditChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                  required
-                >
-                  <option value="">-- Select Category --</option>
-                  {categories.map((c) => (
-                    <option key={c.category_id} value={c.category_name}>
-                      {c.category_name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="flex justify-end space-x-2 pt-4">
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <EditProductModal
+        show={showModal}
+        categories={categories}
+        editForm={editForm}
+        onClose={() => setShowModal(false)}
+        onChange={handleEditChange}
+        onSubmit={handleEditSubmit} />
       <ToastContainer richColor position='top-center' autoClose={3000} />
     </div>
   );

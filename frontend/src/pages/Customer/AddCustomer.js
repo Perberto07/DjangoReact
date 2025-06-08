@@ -42,7 +42,7 @@ const AddCustomer = () => {
       <h2>Add Customer</h2>
       {message && <p>{message}</p>}
       <form onSubmit={handleSubmit}
-            className='bg-[#FDFDFD] p-10 rounded-md shadow-md space-x-3 space-y-2'>
+            className='bg-[#FDFDFD] p-10 rounded-md shadow shadow-blue-500 space-x-3 space-y-2'>
          <div className='flex flex-col grid-cols-2'>
         <label for="customer_name">Name:</label>
         <input  

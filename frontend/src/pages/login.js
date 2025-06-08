@@ -28,7 +28,7 @@ const Login = () => {
 
   return (
     <MainLayout>
-      <div className='bg-white h-2/5 p-6 rounded-lg border border-blue-200 shadow-orange-200 max-w-md  mx-auto mt-20 '>
+      <div className='bg-white h-2/5 p-6 rounded-lg border border-blue-200 shadow shadow-blue-500 hover:border-blue-500 max-w-md  mx-auto mt-20 '>
 
       <h1 className='text-black text-center text-[2rem] font-medium mb-5'>Login</h1>
 
