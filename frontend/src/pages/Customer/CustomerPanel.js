@@ -71,70 +71,72 @@ const CustomerPanel = () => {
   };
 
   return (
-    <>
-    <div className="min-h-screen overflow-auto">
-      <h1 className="ml-10 mt-10 font-medium text-2xl mb-6">Customer Panel</h1>
 
-      <div className="mb-4">
-        <input type="text"
-          placeholder="Search Customer"
-          value={searchCustomer}
-          onChange={(e) => setSearchCustomer(e.target.value)}
-          className="w-3/6 p-2 ml-10 rounded border border-blue-200 shadow-md"
+    <div className="p-6 bg-[#C6E7FF] min-h-screen rounded-md shadow-sm ">
+      <h1 className="text-2xl font-bold mb-6 text-gray-800">Customer Panel</h1>
+      <div className="overflow-x-auto">
+
+        <div className="mb-4">
+          <input type="text"
+            placeholder="Search Customer"
+            value={searchCustomer}
+            onChange={(e) => setSearchCustomer(e.target.value)}
+            className="w-3/6 px-4 py-2 border rounded"
+          />
+        </div>
+
+        <table className="min-w-full bg-[#FBFBFB] border-gray-200 shadow-md rounded-lg overflow-hidden">
+          <thead className="bg-[#FFDDAE] text-gray-700 uppercase text-sm">
+            <tr>
+              <th className="py-3 px-6 text-left">Customer</th>
+              <th className="py-3 px-6 text-left">Address</th>
+              <th className="py-3 px-6 text-left">Contact</th>
+              <th className="py-3 px-6 text-left">Action</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {customers
+              .filter((customer) =>
+                customer.customer_name.toLowerCase().includes(searchCustomer.toLowerCase())
+              )
+              .map((customer) => (
+                <tr
+                  key={customer.customer_id}
+                  className="hover:bg-[#D4F6FF] border-b transition-colors"
+                >
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-800">
+                    {customer.customer_name}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-600">
+                    {customer.customer_address}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-600">
+                    {customer.customer_number}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap space-x-2">
+                    <button
+                      onClick={() => openEditModal(customer)}
+                      className="bg-[#2696ff] ] px-3 py-1 rounded"
+                    >
+                      <SquarePen size={18} color='#ffffff' width={30} strokeWidth={1.5} />
+                    </button>
+                    <button onClick={() => handleDelete(customer.customer_id)} className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm transition-all">
+                      <Trash size={18} color='#ffffff' width={30} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+        <EditCustomerModal
+          show={showModal}
+          editForm={editForm}
+          onClose={() => setShowModal(false)}
+          onChange={handleEditChange}
+          onSubmit={handleEditSubmit}
         />
       </div>
-
-      <table className="bg-white min-w-full mx-5 shadow-lg border border-gray-200 rounded-lg overflow-hidden">
-        <thead className="bg-gray-100 text-gray-700 uppercase text-sm">
-          <tr>
-            <th className="py-3 px-6 text-left">Customer</th>
-            <th className="py-3 px-6 text-left">Address</th>
-            <th className="py-3 px-6 text-left">Contact</th>
-            <th className="py-3 px-6 text-left">Action</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-200">
-          {customers
-            .filter((customer) =>
-              customer.customer_name.toLowerCase().includes(searchCustomer.toLowerCase())
-            )
-            .map((customer) => (
-              <tr
-                key={customer.customer_id}
-                className="hover:bg-gray-50 transition-colors"
-              >
-                <td className="px-6 py-4 whitespace-nowrap text-gray-800">
-                  {customer.customer_name}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-600">
-                  {customer.customer_address}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-600">
-                  {customer.customer_number}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap space-x-2">
-                  <button
-                    onClick={() => openEditModal(customer)}
-                    className="bg-[#2696ff] ] px-3 py-1 rounded"
-                  >
-                    <SquarePen size={18} color='#ffffff' width={30} strokeWidth={1.5} />
-                  </button>
-                  <button onClick={() => handleDelete(customer.customer_id)} className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm transition-all">
-                    <Trash size={18} color='#ffffff' width={30} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
     </div>
-    <EditCustomerModal
-        show={showModal}
-        editForm={editForm}
-        onClose={() => setShowModal(false)}
-        onChange={handleEditChange}
-        onSubmit={handleEditSubmit}
-      /></>
   );
 };
 

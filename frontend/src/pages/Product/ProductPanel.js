@@ -99,8 +99,8 @@ const ProductPanel = () => {
           />
         </div>
 
-        <table className="min-w-full bg-[#FBFBFB] shadow-md">
-          <thead className="bg-[#FFDDAE] text-gray-700">
+        <table className="min-w-full bg-[#FBFBFB] border-gray-200 shadow-md rounded-lg overflow-hidden">
+          <thead className="bg-[#FFDDAE] text-gray-700 uppercase text-sm">
             <tr>
               <th className="py-3 px-4 text-left">Product</th>
               <th className="py-3 px-4 text-left">Price</th>
@@ -108,17 +108,17 @@ const ProductPanel = () => {
               <th className="py-3 px-4 text-left">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-gray-200">
             {products
               .filter((p) =>
                 p.product_name.toLowerCase().includes(searchTerm.toLowerCase())
               )
               .map((p) => (
-                <tr key={p.product_id} className="border-b hover:bg-[#D4F6FF]">
-                  <td className="py-2 px-4">{p.product_name}</td>
-                  <td className="py-2 px-4">₱{parseFloat(p.product_price).toFixed(2)}</td>
-                  <td className="py-2 px-4">{p.product_category}</td>
-                  <td className="py-2 px-4 space-x-2">
+                <tr key={p.product_id} className="border-b hover:bg-[#D4F6FF] transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-800">{p.product_name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-800">₱{parseFloat(p.product_price).toFixed(2)}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-800">{p.product_category}</td>
+                  <td className="px-6 py-4 whitespace-nowrap space-x-2">
                     <button
                       onClick={() => openEditModal(p)}
                       className="bg-[#2696ff] ] px-3 py-1 rounded"
