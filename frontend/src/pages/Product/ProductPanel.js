@@ -47,6 +47,7 @@ const ProductPanel = () => {
       try {
         await deleteProduct(id);
         await fetchProducts();
+        toast.warn("Product Deleted Successfully!");
       } catch (error) {
         console.error('Error deleting product:', error);
       }

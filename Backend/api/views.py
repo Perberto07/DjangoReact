@@ -7,12 +7,19 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from django.db.models.functions import Upper
+from rest_framework.views import APIView
+
+class ProtectedViewSet(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        return Response('This is a protected view. You are authenticated.', status=status.HTTP_200_OK)
 
 
 class ProductViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.AllowAny]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [permissions.AllowAny]
     
     def list(self, request):
         queryset = self.get_queryset()
@@ -53,6 +60,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     def destroy(self, request, pk=None):
         product = get_object_or_404(self.queryset, pk=pk)
         product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=False, methods=['get'], url_path='by-barcode')
     def get_by_barcode(self, request):
@@ -159,6 +167,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
     def destroy(self, request, pk=None):
         customer = get_object_or_404(self.queryset, pk=pk)
         customer.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     
 class TransactionViewSet(viewsets.ModelViewSet):

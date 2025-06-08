@@ -8,12 +8,12 @@ router.register('product', ProductViewSet, basename='product' )
 router.register('customer', CustomerViewSet, basename='customer' )
 router.register('category', CategoryViewSet, basename='category' )
 router.register('transaction', TransactionViewSet, basename='transaction' )
-urlpatterns = router.urls
+#router.register('protected', ProtectedViewSet, basename='protected' )
+urlpatterns = [
+    path('protected/', ProtectedViewSet.as_view(), name='protected'),
+]  
+
 
 #app_name= 'api'
-#urlpatterns = [
-#    path('product/', views.ProductList, name='product_api'),
-#    path('product/<int:id>/', views.ProductDetail, name='product-detail'),
-#    path('customer/', views.CustomerList, name='customer_api'),
-#    path('customer/<int:id>/', views.CustomerDetail, name='customer-detail'),
-#]  
+#urlpatterns = 
+urlpatterns= urlpatterns +router.urls
