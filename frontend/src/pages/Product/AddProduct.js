@@ -38,20 +38,18 @@ const AddProduct = () => {
     });
   };
 
-
-
   const handleBarcodeScanned = (barcode) => {
     console.log("Scanned Barcode:", barcode); // keep this
     setFormData({ ...formData, product_barcode: barcode });
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const categoryId = parseInt(formData.product_category, 10);
-
-    if (!formData.product_name || !formData.product_price || !categoryId) {
+    // Find the selected category to get its name
+    const selectedCategory = categories.find(cat => cat.id.toString() === formData.product_category);
+    
+    if (!formData.product_name || !formData.product_price || !selectedCategory) {
       setMessage('Please fill in all fields correctly.');
       return;
     }
@@ -60,7 +58,8 @@ const AddProduct = () => {
       const dataToSend = {
         product_name: formData.product_name,
         product_price: parseFloat(formData.product_price),
-        product_category: categoryId,
+        product_category: selectedCategory.category_name, // Send category name instead of ID
+        product_barcode: formData.product_barcode, // Include barcode if needed
       };
 
       console.log("Sending to backend:", dataToSend);
@@ -78,7 +77,6 @@ const AddProduct = () => {
       setMessage('Failed to add product.');
     }
   };
-
 
   return (
     <div className='max-w-screen-md flex flex-col items-center md:min-w-full'>
@@ -100,7 +98,7 @@ const AddProduct = () => {
         </div>
 
         <div className='flex flex-col grid-cols-2'>
-          <label for="product_name">Product Name: </label>
+          <label htmlFor="product_name">Product Name: </label>
           <input
             type="text"
             name="product_name"
@@ -111,7 +109,7 @@ const AddProduct = () => {
             className='p-2 rounded-md border border-gray-300 hover:border-blue-500'
           />
 
-          <label for="product_price">Price:</label>
+          <label htmlFor="product_price">Price:</label>
           <input
             type="number"
             name="product_price"
@@ -122,7 +120,7 @@ const AddProduct = () => {
             className='p-2 rounded-md border border-gray-300 hover:border-blue-500'
           />
           {/* Category dropdown */}
-          <label for="product_categoty">Category:</label>
+          <label htmlFor="product_category">Category:</label>
           <select
             name="product_category"
             value={formData.product_category}

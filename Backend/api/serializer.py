@@ -17,6 +17,7 @@ class ProductSerializer(serializers.ModelSerializer):
                 queryset = Category.objects.all(),
                 slug_field = 'category_name'
     )
+    product_barcode = serializers.IntegerField(required=False, allow_null=True)
     class Meta:
         model = Product
         fields = ['product_id', 
