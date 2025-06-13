@@ -20,7 +20,7 @@ const Product = () => {
   return (
     <>
     <MainLayout>
-        <ul className="flex flex-row items-center justify-evenly  space-x-   text-center">
+        <ul className="flex justify-end space-x-3 text-center mr-5">
           <li onClick={() => setActivePanel('transaction_list')} className="bg-white p-2 rounded-md shadow-md flex flex-row items-center space-x-1 cursor-pointer hover:text-blue-500">
             <ListCheck size={18}/>
             <span>Transactions</span>
