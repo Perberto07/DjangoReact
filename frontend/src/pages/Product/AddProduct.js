@@ -1,5 +1,5 @@
 // src/components/AddProduct.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { createProduct } from '../../services/ProductServices';
 import { getCategory } from '../../services/CategoryServices';
 import BarcodeScanner from "../BarcodeScanner";
@@ -38,10 +38,14 @@ const AddProduct = () => {
     });
   };
 
-  const handleBarcodeScanned = (barcode) => {
-    console.log("Scanned Barcode:", barcode); // keep this
-    setFormData({ ...formData, product_barcode: barcode });
-  };
+  // CRITICAL FIX: Use useCallback to prevent function recreation
+  const handleBarcodeScanned = useCallback((barcode) => {
+    console.log("Scanned Barcode:", barcode);
+    setFormData(prevData => ({ 
+      ...prevData, 
+      product_barcode: barcode 
+    }));
+  }, []); // Empty dependency array means this function never changes
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -1,64 +1,6 @@
 [
     
     {
-        "model": "auth.user",
-        "pk": 1,
-        "fields": {
-            "password": "pbkdf2_sha256$1000000$nyD5fD1reB5u4IsinyuSdP$cCzB5/v4/Qtz+t29DTjLFyfqdKJ3ENRCcNOcvL5ZDSI=",
-            "last_login": "2025-05-21T02:47:46.890Z",
-            "is_superuser": true,
-            "username": "perberto",
-            "first_name": "",
-            "last_name": "",
-            "email": "",
-            "is_staff": true,
-            "is_active": true,
-            "date_joined": "2025-05-16T02:40:28.944Z",
-            "groups": [],
-            "user_permissions": []
-        }
-    },
-    {
-        "model": "contenttypes.contenttype",
-        "pk": 7,
-        "fields": {
-            "app_label": "api",
-            "model": "category"
-        }
-    },
-    {
-        "model": "contenttypes.contenttype",
-        "pk": 8,
-        "fields": {
-            "app_label": "api",
-            "model": "customer"
-        }
-    },
-    {
-        "model": "contenttypes.contenttype",
-        "pk": 9,
-        "fields": {
-            "app_label": "api",
-            "model": "product"
-        }
-    },
-    {
-        "model": "contenttypes.contenttype",
-        "pk": 10,
-        "fields": {
-            "app_label": "api",
-            "model": "order"
-        }
-    },
-    {
-        "model": "contenttypes.contenttype",
-        "pk": 11,
-        "fields": {
-            "app_label": "api",
-            "model": "transactions"
-        }
-    },
-    {
         "model": "api.category",
         "pk": 1,
         "fields": {
@@ -211,66 +153,6 @@
             "customer_name": "banda",
             "customer_address": "baseco",
             "customer_number": 29032
-        }
-    },
-    {
-        "model": "api.transactions",
-        "pk": "16c50ad8-2c59-4159-8e5b-784959f6f857",
-        "fields": {
-            "customer": 2,
-            "create_at": "2025-05-21T02:49:45.999Z"
-        }
-    },
-    {
-        "model": "api.transactions",
-        "pk": "81490b72-10ed-461c-9ec6-d2febbb99b1a",
-        "fields": {
-            "customer": 4,
-            "create_at": "2025-05-21T02:48:16.798Z"
-        }
-    },
-    {
-        "model": "api.transactions",
-        "pk": "92fefa77-089a-4895-8c7e-cfc24cfa2566",
-        "fields": {
-            "customer": 11,
-            "create_at": "2025-05-21T02:48:08.792Z"
-        }
-    },
-    {
-        "model": "api.order",
-        "pk": 1,
-        "fields": {
-            "items": "92fefa77-089a-4895-8c7e-cfc24cfa2566",
-            "product": 2,
-            "quantity": 3
-        }
-    },
-    {
-        "model": "api.order",
-        "pk": 2,
-        "fields": {
-            "items": "16c50ad8-2c59-4159-8e5b-784959f6f857",
-            "product": 4,
-            "quantity": 3
-        }
-    },
-    {
-        "model": "api.order",
-        "pk": 3,
-        "fields": {
-            "items": "92fefa77-089a-4895-8c7e-cfc24cfa2566",
-            "product": 2,
-            "quantity": 1
-        }
-    },
-    {
-        "model": "api.order",
-        "pk": 4,
-        "fields": {
-            "items": "81490b72-10ed-461c-9ec6-d2febbb99b1a",
-            "product": 6,
-            "quantity": 12
         }
     }
 ]

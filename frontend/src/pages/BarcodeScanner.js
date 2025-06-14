@@ -1,71 +1,65 @@
-import  { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Html5Qrcode } from "html5-qrcode";
 
 const BarcodeScanner = ({ onScanned }) => {
   const html5QrCodeRef = useRef(null);
   const isScannerRunningRef = useRef(false);
+  const onScannedRef = useRef(onScanned);
   const [isScanning, setIsScanning] = useState(false);
+
+  // Update the ref when onScanned changes
+  useEffect(() => {
+    onScannedRef.current = onScanned;
+  }, [onScanned]);
 
   useEffect(() => {
     const qrRegionId = "html5qr-code-region";
     const config = {
-      fps: 15,
-      qrbox: 300, // square scanning box 300x300
+      fps: 10, // Reduced for stability
+      qrbox: 300,
       experimentalFeatures: { useBarCodeDetectorIfSupported: true },
     };
     let isComponentMounted = true;
 
-    html5QrCodeRef.current = new Html5Qrcode(qrRegionId);
+    const initializeScanner = async () => {
+      try {
+        html5QrCodeRef.current = new Html5Qrcode(qrRegionId);
 
-    Html5Qrcode.getCameras()
-      .then((devices) => {
+        const devices = await Html5Qrcode.getCameras();
+        
         if (devices && devices.length > 0 && isComponentMounted) {
-          // Prefer back camera if available
           const backCamera = devices.find((device) =>
             device.label.toLowerCase().includes("back")
           );
           const cameraId = backCamera ? backCamera.id : devices[0].id;
 
-          html5QrCodeRef.current
-            .start(
-              cameraId,
-              config,
-              (decodedText) => {
-                console.log("Decoded text:", decodedText);
-                if (onScanned) onScanned(decodedText);
+          await html5QrCodeRef.current.start(
+            cameraId,
+            config,
+            (decodedText) => {
+              console.log("Decoded text:", decodedText);
+              // Use the ref instead of the prop directly
+              if (onScannedRef.current) {
+                onScannedRef.current(decodedText);
+              }
+              // Don't stop the scanner - keep it running
+            },
+            (errorMessage) => {
+              console.debug("Scan error:", errorMessage);
+            }
+          );
 
-                if (isScannerRunningRef.current) {
-                  html5QrCodeRef.current
-                    .stop()
-                    .then(() => {
-                      console.log("Scanner stopped");
-                      isScannerRunningRef.current = false;
-                      setIsScanning(false);
-                    })
-                    .catch((err) => {
-                      console.error("Error stopping scanner:", err);
-                    });
-                }
-              },
-              (errorMessage) => {
-                // Scan failure feedback (normal during scanning)
-                console.debug("Scan error:", errorMessage);
-              }
-            )
-            .then(() => {
-              if (isComponentMounted) {
-                isScannerRunningRef.current = true;
-                setIsScanning(true);
-              }
-            })
-            .catch((err) => {
-              console.error("Failed to start scanner:", err);
-            });
+          if (isComponentMounted) {
+            isScannerRunningRef.current = true;
+            setIsScanning(true);
+          }
         }
-      })
-      .catch((err) => {
-        console.error("Camera error:", err);
-      });
+      } catch (err) {
+        console.error("Failed to start scanner:", err);
+      }
+    };
+
+    initializeScanner();
 
     return () => {
       isComponentMounted = false;
@@ -82,13 +76,14 @@ const BarcodeScanner = ({ onScanned }) => {
           });
       }
     };
-  }, [onScanned]);
+  }, []); // Remove onScanned from dependencies
 
   return (
     <div>
       <h3 className="text-lg font-bold mb-2">Scan Barcode</h3>
       <div id="html5qr-code-region" style={{ width: "320px", margin: "auto" }} />
       {!isScanning && <p>Loading camera...</p>}
+      {isScanning && <p className="text-green-600 text-sm">Ready to scan</p>}
     </div>
   );
 };
