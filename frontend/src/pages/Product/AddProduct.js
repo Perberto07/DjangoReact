@@ -5,6 +5,8 @@ import { getCategory } from '../../services/CategoryServices';
 import BarcodeScanner from "../BarcodeScanner";
 import Button from '../../components/Button/button';
 import { ArrowRightToLine } from 'lucide-react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddProduct = () => {
   const [formData, setFormData] = useState({
@@ -67,9 +69,9 @@ const AddProduct = () => {
       };
 
       console.log("Sending to backend:", dataToSend);
+      toast.success("Product Added Successfully!");
 
       await createProduct(dataToSend);
-      setMessage('Product added successfully!');
       setFormData({
         product_name: '',
         product_category: '',
@@ -145,6 +147,7 @@ const AddProduct = () => {
           <ArrowRightToLine size={18} />
         </Button>
       </form>
+      <ToastContainer richColor position='top-center' autoClose={3000} />
     </div>
   );
 };
