@@ -12,8 +12,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login/>} />
-          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/" element={<Login/>} />
+          <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/customer" element={<ProtectedRoute><Customer/></ProtectedRoute>} />
           <Route path="/product" element={<ProtectedRoute><Product/></ProtectedRoute>} />

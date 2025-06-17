@@ -20,7 +20,7 @@ const Login = () => {
       localStorage.setItem('refresh_token', response.data.refresh);
       axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
 
-      navigate('/'); // Redirect to a protected route
+      navigate('/home'); // Redirect to a protected route
     } catch (error) {
       alert('Login failed: ' + error.response?.data?.detail || 'Server error');
     }
