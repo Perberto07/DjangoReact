@@ -1,6 +1,6 @@
-import { FileCog, ShoppingCart, LogOut, Menu, X, ChartSpline } from 'lucide-react';
+import { FileCog, ShoppingCart, LogOut, Menu, X, ChartSpline, Home } from 'lucide-react';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +12,7 @@ const Sidebar = () => {
       try {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
-        navigate('/login');
+        navigate('/');
       } catch (error) {
         console.error("error Logging out:", error);
       }
@@ -46,6 +46,10 @@ const Sidebar = () => {
         <nav>
           <ul className="space-y-4 pl-6">
             <li className="flex items-center gap-2 hover:text-blue-400 cursor-pointer">
+              <Home size={18} />
+              <Link to="/home">Home</Link>
+            </li>
+            <li className="flex items-center gap-2 hover:text-blue-400 cursor-pointer">
               <ChartSpline size={18} />
               Reports
             </li>
@@ -55,8 +59,8 @@ const Sidebar = () => {
             </li>
             <li className="flex items-center gap-2 hover:text-blue-400 cursor-pointer">
               <ShoppingCart size={18} />
-              Transaction
-            </li>
+              <Link to="/dashboard/transaction-panel">Transaction</Link>
+            </li>  
             <li
               className="flex items-center gap-2 hover:text-blue-400 cursor-pointer"
               onClick={handleLogout}

@@ -1,5 +1,5 @@
 // src/App.jsx
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/adminPanel/Dashboard';
 import Home from './pages/home';
 import Login from './pages/login';
@@ -7,19 +7,54 @@ import Customer from './pages/Customer/Customer';
 import Product from './pages/Product/Product';
 import Transactions from './pages/Transactions/Transactions';
 import ProtectedRoute from './components/ProtectedRoute';
+import TransactionPanel from './pages/adminPanel/TransactionPanel';
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login/>} />
-          <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/customer" element={<ProtectedRoute><Customer/></ProtectedRoute>} />
-          <Route path="/product" element={<ProtectedRoute><Product/></ProtectedRoute>} />
-          <Route path="/transaction" element={<ProtectedRoute><Transactions/></ProtectedRoute>} />
+        {/* Auth Route */}
+        <Route path="/" element={<Login />} />
+        
+        {/* Main App Routes */}
+        <Route path="/home" element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/customer" element={
+          <ProtectedRoute>
+            <Customer />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/product" element={
+          <ProtectedRoute>
+            <Product />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/transaction" element={
+          <ProtectedRoute>
+            <Transactions />
+          </ProtectedRoute>
+        } />
+        
+        {/* Dashboard Routes */}
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/dashboard/transaction-panel" element={
+          <ProtectedRoute>
+            <TransactionPanel />
+          </ProtectedRoute>
+        } />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
