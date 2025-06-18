@@ -6,7 +6,7 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = ['customer_id', 'customer_name', 'customer_address', 'customer_number']
-
+        
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -71,5 +71,25 @@ class TransactionSerializer(serializers.ModelSerializer):
             Order.objects.create(transaction=transaction, **item_data)
         return transaction
 
-        
+# Serializer below if for Charts_display in dashboard
+class TopCustomerSerializer(serializers.Serializer):
+    transaction__customer__customer_name = serializers.CharField()
+    total_spent = serializers.DecimalField(max_digits=10, decimal_places=2)
+
+    def to_representation(self, instance):
+        return {
+            "customer": instance["transaction__customer__customer_name"],
+            "total_spent": instance["total_spent"]
+        }
+
+class MostBoughtProductSerializer(serializers.Serializer):
+    product__product_name = serializers.CharField()
+    total_quantity = serializers.IntegerField()
+
+    def to_representation(self, instance):
+        return {
+            "product": instance["product__product_name"],
+            "total_quantity": instance["total_quantity"]
+        }
+      
         

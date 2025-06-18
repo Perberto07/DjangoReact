@@ -1,20 +1,25 @@
-from django.http import JsonResponse
+from django.db.models import F, Sum, ExpressionWrapper, DecimalField
 from django.shortcuts import get_object_or_404
-from .models import Product, Customer, Category, Transactions
-from .serializer import ProductSerializer, CustomerSerializer, CategorySerializer, TransactionSerializer
+from .models import Product, Customer, Category, Transactions, Order
+from .serializer import ProductSerializer, CustomerSerializer, CategorySerializer, TransactionSerializer, TopCustomerSerializer, MostBoughtProductSerializer
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from django.db.models.functions import Upper
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
+from django.utils.timezone import now
+from datetime import datetime, timedelta
+from django.db.models.functions import TruncDate
+from django.utils.dateparse import parse_date
+
 
 class ProtectedViewSet(APIView):
     permission_classes = [IsAuthenticated]
     
     def get(self, request):
         return Response('This is a protected view. You are authenticated.', status=status.HTTP_200_OK)
-
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
@@ -168,8 +173,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
         customer = get_object_or_404(self.queryset, pk=pk)
         customer.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-    
+   
 class TransactionViewSet(viewsets.ModelViewSet):
     queryset = Transactions.objects.all()
     serializer_class = TransactionSerializer
@@ -188,3 +192,94 @@ class TransactionViewSet(viewsets.ModelViewSet):
         else:
             return Response(serializer.errors, status=400)
     
+# Below is views for chart-display dashboard in Frontend
+
+@api_view(['GET'])
+def top_customers(request):
+    # Get optional query parameters
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    # Default to current month if no date filters are provided
+    today = now().date()
+    if not start_date or not end_date:
+        start_date = today.replace(day=1)
+        # First day of next month - 1 day = last day of this month
+        next_month = (today.replace(day=28) + timedelta(days=4)).replace(day=1)
+        end_date = next_month - timedelta(days=1)
+    else:
+        # Convert string to date object
+        start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+        end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+
+    # Calculate subtotal for each order
+    subtotal_expr = ExpressionWrapper(
+        F('product__product_price') * F('quantity'),
+        output_field=DecimalField()
+    )
+
+    data = (
+        Order.objects
+        .filter(transaction__create_at__range=(start_date, end_date))
+        .values('transaction__customer__customer_name')
+        .annotate(total_spent=Sum(subtotal_expr))
+        .order_by('-total_spent')[:5]
+    )
+
+    serializer = TopCustomerSerializer(data, many=True)
+    return Response(serializer.data)   
+
+@api_view(['GET'])
+def most_bought_products(request):
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    filters = {}
+    if start_date and end_date:
+        filters['transaction__create_at__range'] = [start_date, end_date]
+
+    data = (
+        Order.objects
+        .filter(**filters)
+        .values('product__product_name')
+        .annotate(total_quantity=Sum('quantity'))
+        .order_by('-total_quantity')[:10]  # Top 5 most bought
+    )
+
+    serializer = MostBoughtProductSerializer(data, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def daily_sales(request):
+    today = now().date()
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    # Fallback to current month if dates aren't provided
+    if start_date and end_date:
+        try:
+            start_date =    (start_date)
+            end_date = parse_date(end_date)
+        except ValueError:
+            return Response({"error": "Invalid date format."}, status=400)
+    else:
+        start_date = today.replace(day=1)
+        end_date = today
+
+    # Expression to calculate subtotal per item
+    subtotal_expr = ExpressionWrapper(
+        F('product__product_price') * F('quantity'),
+        output_field=DecimalField()
+    )
+
+    # Group sales by date
+    daily_sales = (
+        Order.objects
+        .filter(transaction__create_at__date__range=[start_date, end_date])
+        .annotate(date=TruncDate('transaction__create_at'))
+        .values('date')
+        .annotate(total_sales=Sum(subtotal_expr))
+        .order_by('date')
+    )
+
+    return Response(daily_sales)
