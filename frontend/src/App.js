@@ -8,6 +8,7 @@ import Product from './pages/Product/Product';
 import Transactions from './pages/Transactions/Transactions';
 import ProtectedRoute from './components/ProtectedRoute';
 import TransactionPanel from './pages/adminPanel/TransactionPanel';
+import Reports from './pages/adminPanel/Report/Reports';
 
 function App() {
   return (
@@ -53,7 +54,14 @@ function App() {
             <TransactionPanel />
           </ProtectedRoute>
         } />
+
+        <Route path="/dashboard/Report" element={
+          <ProtectedRoute>
+            <Reports />
+          </ProtectedRoute>
+        } />
       </Routes>
+      
     </BrowserRouter>
   );
 }
