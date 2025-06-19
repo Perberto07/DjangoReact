@@ -1,7 +1,7 @@
 // layout/MainLayout.js
 import React from 'react';
-import Footer from '../components/Footer';
-import HeaderMain from '../components/HeaderMain';
+
+import HeaderMain from './HeaderMain';
 
 const MainLayout = ({ children }) => {
   return (
@@ -11,7 +11,11 @@ const MainLayout = ({ children }) => {
         {children}
       </main>
 
-      <Footer theme="dark" />
+      <footer
+        className='w-full p-4 text-center text-sm '
+      >
+        © {new Date().getFullYear()} John Patrick R. Boleche
+      </footer>
     </div>
   );
 };

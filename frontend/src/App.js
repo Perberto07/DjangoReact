@@ -9,6 +9,7 @@ import Transactions from './pages/Transactions/Transactions';
 import ProtectedRoute from './components/ProtectedRoute';
 import TransactionPanel from './pages/adminPanel/TransactionPanel';
 import Reports from './pages/adminPanel/Report/Reports';
+import TransactionDetailPage from './pages/Transactions/TransactionDetailPage';
 
 function App() {
   return (
@@ -39,6 +40,12 @@ function App() {
         <Route path="/transaction" element={
           <ProtectedRoute>
             <Transactions />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/transaction/:id" element={
+          <ProtectedRoute>
+            <TransactionDetailPage />
           </ProtectedRoute>
         } />
         
