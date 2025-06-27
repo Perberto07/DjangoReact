@@ -10,6 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import TransactionPanel from './pages/adminPanel/TransactionPanel';
 import Reports from './pages/adminPanel/Report/Reports';
 import TransactionDetailPage from './pages/Transactions/TransactionDetailPage';
+import Category from './pages/adminPanel/Category/Category';
 
 function App() {
   return (
@@ -65,6 +66,11 @@ function App() {
         <Route path="/dashboard/Report" element={
           <ProtectedRoute>
             <Reports />
+          </ProtectedRoute>
+        } />
+        <Route path="/dashboard/category" element={
+          <ProtectedRoute>
+            <Category />
           </ProtectedRoute>
         } />
       </Routes>

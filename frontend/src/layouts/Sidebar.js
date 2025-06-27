@@ -38,27 +38,31 @@ const Sidebar = ({ isOpen }) => {
       <nav className="overflow-y-auto h-full">
         <ul className="space-y-4 pl-6 pr-4 pb-10 pt-6 ">
           <li className="flex items-center gap-2 hover:text-blue-400 bg-gray-900 p-2 rounded-lg shadow-sm shadow-slate-400  ">
-            <Home size={18} />
-            <Link to="/home">Home</Link>
+            <Link to="/home">
+              <Home size={18} />
+            </Link>
           </li>
           <li className="flex items-center gap-2 hover:text-blue-400 bg-gray-900 p-2 rounded-lg shadow-sm shadow-slate-400">
-            <ChartSpline size={18} />
-            <Link to="/dashboard/report">Reports</Link>
+            <Link to="/dashboard/report">
+              <ChartSpline size={18} />
+            </Link>
           </li>
           <li className="flex items-center gap-2 hover:text-blue-400 bg-gray-900 p-2 rounded-lg shadow-sm shadow-slate-400">
-            <FileCog size={18} />
-            Manage
+            <Link to="/dashboard/category">
+              <FileCog size={18} />
+            </Link>
+
           </li>
           <li className="flex items-center gap-2 hover:text-blue-400 bg-gray-900 p-2 rounded-lg shadow-sm shadow-slate-400">
+            <Link to="/dashboard/transaction-panel">
             <ShoppingCart size={18} />
-            <Link to="/dashboard/transaction-panel">Transaction</Link>
+            </Link>
           </li>
           <li
             className="flex items-center gap-2 hover:text-blue-400 cursor-pointer bg-gray-900 p-2 rounded-lg shadow-sm shadow-slate-400"
             onClick={handleLogout}
           >
             <LogOut size={18} />
-            Logout
           </li>
         </ul>
       </nav>

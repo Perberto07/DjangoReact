@@ -82,9 +82,9 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()  # ✅ must use .all()
+    queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def list(self, request):
         queryset= self.get_queryset()
