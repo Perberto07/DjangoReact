@@ -243,7 +243,7 @@ def most_bought_products(request):
         .filter(**filters)
         .values('product__product_name')
         .annotate(total_quantity=Sum('quantity'))
-        .order_by('-total_quantity')[:10]  # Top 5 most bought
+        .order_by('-total_quantity')[:5]  # Top 5 most bought
     )
 
     serializer = MostBoughtProductSerializer(data, many=True)
