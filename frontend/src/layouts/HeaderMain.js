@@ -56,7 +56,7 @@ const HeaderMain = () => {
             </li>
             <li className="flex items-center gap-2 hover:text-blue-400">
               <ShoppingCart size={16} />
-              <Link to="/transaction  ">Add Transaction</Link>
+              <Link to="/transaction  ">Transaction</Link>
             </li>
             <li className="flex items-center gap-2 hover:text-blue-400">
               <LogIn size={16} />

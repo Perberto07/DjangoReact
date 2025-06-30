@@ -11,6 +11,7 @@ import TransactionPanel from './pages/adminPanel/TransactionPanel';
 import Reports from './pages/adminPanel/Report/Reports';
 import TransactionDetailPage from './pages/Transactions/TransactionDetailPage';
 import Category from './pages/adminPanel/Category/Category';
+import Users from './pages/adminPanel/User/Users';
 
 function App() {
   return (
@@ -71,6 +72,11 @@ function App() {
         <Route path="/dashboard/category" element={
           <ProtectedRoute>
             <Category />
+          </ProtectedRoute>
+        } />
+        <Route path="/dashboard/user" element={
+          <ProtectedRoute>
+            <Users/>
           </ProtectedRoute>
         } />
       </Routes>

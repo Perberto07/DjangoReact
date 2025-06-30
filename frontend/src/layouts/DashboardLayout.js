@@ -11,11 +11,11 @@ const DashboardLayout = ({ children }) => {
       <header className='w-full min-h-16 sticky top-0 bg-blue-900 z-50 flex items-center justify-between px-4 shadow'>
         {/* Toggle Button */}
         <button
-          className="md:hidden text-gray-300 bg-gray-700 p-2 rounded"
+          className="md:hidden text-gray-300 bg-gray-900 p-1 rounded"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="toggle navigation"
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
 
         <h1 className='text-2xl font-bold text-center w-full pr-10'>Dashboard</h1>

@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { deleteCategory, getCategory, updateCategory } from '../../../services/CategoryServices';
+import { createCategory, deleteCategory, getCategory, updateCategory } from '../../../services/CategoryServices';
 import { Plus, SquarePen, Trash } from 'lucide-react';
 import DashboardLayout from '../../../layouts/DashboardLayout';
 import EditCategoryModal from './EditCategoryModal';
+import AddCategory from './AddCategory';
 
 const Category = () => {
   const [categories, setCategory] = useState([]);
   const [searchCategory, setSearchCategory] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [EditingCategory, setEditingCategory] = useState(null);
-  const [editForm, setEditForm] = useState({
-    category_name: '',
-  });
+  const [editForm, setEditForm] = useState({ category_name: '', });
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [formData, setFormData] = useState({ category_name: '' });
 
   useEffect(() => {
     fetchCategory();
@@ -27,13 +28,35 @@ const Category = () => {
     }
   }
 
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await createCategory(formData);
+      setFormData({ category_name: '' });
+      setShowAddModal(false);
+      await fetchCategory(); // Refresh the category list
+    } catch (error) {
+      console.error('Error adding category:', error);
+    }
+  };
+
+
+
   const openEditModal = (category) => {
     setEditingCategory(category);
     setEditForm({
       category_name: category.category_name,
     });
-    setShowModal(true);
+    setShowEditModal(true);
   };
+
   const handleEditChange = (e) => {
     setEditForm({
       ...editForm,
@@ -45,7 +68,7 @@ const Category = () => {
     e.preventDefault();
     try {
       await updateCategory(EditingCategory.id, editForm);
-      setShowModal(false);
+      setShowEditModal(false);
       setEditingCategory(null);
       await fetchCategory();
       //toast.success("Product Modified Successfully!");
@@ -73,13 +96,17 @@ const Category = () => {
             placeholder='Search Category'
             value={searchCategory}
             onChange={(e) => setSearchCategory(e.target.value)}
-            className='w-3/6 px-4 py-2 border rounded' 
+            className='w-3/6 px-4 py-2 border rounded'
           />
-          <button className='bg-green-600 p-2 rounded-lg shadow-lg mr-2'>
-           <Plus />
+          <button
+            className='bg-green-600 p-2 rounded-lg shadow-lg mr-2'
+            onClick={() => setShowAddModal(true)}
+          >
+            <Plus />
           </button>
+
         </div>
-        
+
         <table className="min-w-full bg-[#FBFBFB] border-gray-200 shadow-md rounded-lg overflow-hidden">
           <thead className="bg-[#FFDDAE] text-gray-700 uppercase text-sm">
             <tr>
@@ -122,12 +149,20 @@ const Category = () => {
           </tbody>
         </table>
         <EditCategoryModal
-          show={showModal}
+          show={showEditModal}
           editForm={editForm}
-          onClose={() => setShowModal(false)}
+          onClose={() => setShowEditModal(false)}
           onChange={handleEditChange}
           onSubmit={handleEditSubmit}
         />
+        <AddCategory
+          show={showAddModal}
+          formData={formData}
+          onClose={() => setShowAddModal(false)}
+          handleChange={handleChange}
+          HandleSubmit={handleSubmit}
+        />
+
       </div>
     </DashboardLayout>
   )

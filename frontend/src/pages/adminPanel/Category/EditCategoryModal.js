@@ -12,7 +12,7 @@ const EditCategoryModal = ({ show, editForm, onClose, onChange, onSubmit }) => {
                         <label className="block text-sm font-medium mb-1">Name</label>
                         <input
                             name="category_name"
-                            value={editForm.customer_name}
+                            value={editForm.category_name}
                             onChange={onChange}
                             className="w-full border border-gray-300 rounded px-3 py-2"
                             required

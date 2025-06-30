@@ -17,14 +17,12 @@ const SalesLineChart = ({ startDate, endDate }) => {
     const [salesData, setSalesData] = useState([]);
 
     useEffect(() => {
-        if (!startDate || !endDate) return;
+        let url = "http://127.0.0.1:8000/daily-sales/";
+        if (startDate && endDate) {
+            url += `?start_date=${startDate}&end_date=${endDate}`;
+        }
 
-        const params = new URLSearchParams({
-            start_date: startDate,
-            end_date: endDate,
-        });
-
-        fetch(`http://127.0.0.1:8000/daily-sales/?${params.toString()}`)
+        fetch(url)
             .then((res) => res.json())
             .then((data) => setSalesData(data))
             .catch((err) => console.error("Failed to load sales data", err));
