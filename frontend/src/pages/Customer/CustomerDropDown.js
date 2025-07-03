@@ -9,15 +9,18 @@ const CustomerDropdown = ({ onSelect }) => {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const data = await getCustomer();
-        setCustomers(data);
-      } catch (error) {
-        console.error('Failed to fetch customers:', error);
+        const res = await getCustomer(); // returns { results: [...], count: number }
+        setCustomers(Array.isArray(res.results) ? res.results : []);
+      } catch (err) {
+        console.error("Failed to fetch customers", err);
+        setCustomers([]);
       }
     };
 
     fetchCustomers();
   }, []);
+
+
 
   const handleChange = (e) => {
     const selectedName = e.target.value;

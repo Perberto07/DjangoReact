@@ -17,7 +17,7 @@ const CustomerPanel = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const pageSize = 5;
+  const pageSize = 20;
 
   useEffect(() => {
     fetchCustomer(currentPage);
@@ -26,7 +26,7 @@ const CustomerPanel = () => {
   const fetchCustomer = async (page = 1) => {
     try {
       const data = await getCustomer(page, pageSize);
-      setCustomers(data.results);
+      setCustomers(Array.isArray(data?.results) ? data.results : []);
       setTotalPages(Math.ceil(data.count / pageSize));
     } catch (error) {
       console.error("Error fetching customers", error);

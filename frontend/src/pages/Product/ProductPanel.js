@@ -20,7 +20,7 @@ const ProductPanel = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const pageSize = 5;
+  const pageSize = 20;
 
   useEffect(() => {
     fetchProducts(currentPage);

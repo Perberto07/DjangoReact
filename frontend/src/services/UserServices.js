@@ -13,8 +13,9 @@ const getAuthHeaders = () => {
 
 export const getUsers = async () => {
   const response = await axios.get(API_URL, getAuthHeaders());
-  return response.data;
+  return response.data?.results || []; // Fix: access `.results` safely
 };
+
 
 export const createUser = async (productData) => {
   const response = await axios.post(API_URL, getAuthHeaders());

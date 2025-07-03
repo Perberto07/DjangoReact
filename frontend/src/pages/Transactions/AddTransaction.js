@@ -78,12 +78,13 @@ const AddTransaction = () => {
   const openModal = async () => {
     try {
       const products = await getProducts();
-      setAllProducts(products);
+      setAllProducts(Array.isArray(products.results) ? products.results : []);
       setShowModal(true);
     } catch (err) {
       console.error("Failed to load products", err);
     }
   };
+
 
   const addManualItem = () => {
     if (!selectedProduct || manualQty < 1) return;
@@ -121,7 +122,7 @@ const AddTransaction = () => {
   const options = allProducts.map(prod => ({
     value: prod.product_id,
     label: `${prod.product_name} - ₱${prod.product_price}`,
-    data: prod, 
+    data: prod,
   }));
 
 

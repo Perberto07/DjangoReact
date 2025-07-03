@@ -12,7 +12,7 @@ const getAuthHeaders = () => {
   };
 };
 
-export const getProducts = async (page = 1, pageSize = 5) => {
+export const getProducts = async (page = 1, pageSize = 20) => {
   const token = localStorage.getItem('access_token');
   
   const response = await axios.get(API_URL, {

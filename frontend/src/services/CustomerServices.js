@@ -11,7 +11,7 @@ const getAuthHeaders = () => {
   };
 };
 
-export const getCustomer = async (page = 1, pageSize = 5) => {
+export const getCustomer = async (page = 1, pageSize = 20) => {
   const token = localStorage.getItem('access_token');
 
   const response = await axios.get(API_URL, {
@@ -24,7 +24,10 @@ export const getCustomer = async (page = 1, pageSize = 5) => {
     },
   });
 
-  return response.data;
+  return {
+    results: Array.isArray(response.data?.results) ? response.data.results : [],
+    count: response.data?.count || 0,
+  };
 };
 
 
