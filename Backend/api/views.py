@@ -20,16 +20,13 @@ class ProtectedViewSet(APIView):
     
     def get(self, request):
         return Response('This is a protected view. You are authenticated.', status=status.HTTP_200_OK)
+    
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [IsAuthenticated]
     
-    def list(self, request):
-        queryset = self.get_queryset()
-        serializer = self.serializer_class(queryset, many= True)
-        return Response(serializer.data)
     
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -127,16 +124,10 @@ class CategoryViewSet(viewsets.ModelViewSet):
         
  
 class CustomerViewSet(viewsets.ModelViewSet):
-
     queryset = Customer.objects.all().annotate(
     upper_name=Upper('customer_name')).order_by('upper_name')
     serializer_class = CustomerSerializer
-    permission_classes = [permissions.AllowAny]
-
-    def list(self, request):
-        queryset = self.get_queryset()
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)
+    permission_classes = [IsAuthenticated]
     
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -177,13 +168,9 @@ class CustomerViewSet(viewsets.ModelViewSet):
 class TransactionViewSet(viewsets.ModelViewSet):
     queryset = Transactions.objects.all()
     serializer_class = TransactionSerializer
-    permission_classes = [permissions.AllowAny]
-
-    def list(self, request):
-        queryset = self.get_queryset()
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)
+    permission_classes = [IsAuthenticated]
     
+    # All http method are automatically created using ModelViewSet     
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
