@@ -1,33 +1,37 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { getCustomer, deleteCustomer, updateCustomer } from "../../services/CustomerServices";
 import EditCustomerModal from "./EditCustomerModal";
 import 'react-toastify/dist/ReactToastify.css';
 import { SquarePen, Trash } from 'lucide-react';
 
-
 const CustomerPanel = () => {
-  const [customers, setCustomer] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [searchCustomer, setSearchCustomer] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [EditingCustomer, setEditingCustomer] = useState(null);
+  const [editingCustomer, setEditingCustomer] = useState(null);
   const [editForm, setEditForm] = useState({
     customer_name: '',
     customer_address: '',
     customer_number: '',
   });
 
-  useEffect(() => {
-    fetchCustomer();
-  }, [])
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const pageSize = 5;
 
-  const fetchCustomer = async () => {
+  useEffect(() => {
+    fetchCustomer(currentPage);
+  }, [currentPage]);
+
+  const fetchCustomer = async (page = 1) => {
     try {
-      const data = await getCustomer();
-      setCustomer(Array.isArray(data) ? data : []);
+      const data = await getCustomer(page, pageSize);
+      setCustomers(data.results);
+      setTotalPages(Math.ceil(data.count / pageSize));
     } catch (error) {
-      console.error("error fetching customer", error);
+      console.error("Error fetching customers", error);
     }
-  }
+  };
 
   const openEditModal = (customer) => {
     setEditingCustomer(customer);
@@ -49,13 +53,12 @@ const CustomerPanel = () => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updateCustomer(EditingCustomer.customer_id, editForm);
+      await updateCustomer(editingCustomer.customer_id, editForm);
       setShowModal(false);
       setEditingCustomer(null);
-      await fetchCustomer();
-      //toast.success("Product Modified Successfully!");
+      fetchCustomer(currentPage);
     } catch (error) {
-      console.error('Error updating product:', error);
+      console.error('Error updating customer:', error);
     }
   };
 
@@ -63,7 +66,7 @@ const CustomerPanel = () => {
     if (window.confirm("Are you sure you want to delete this Customer?")) {
       try {
         await deleteCustomer(id);
-        await fetchCustomer();
+        fetchCustomer(currentPage);
       } catch (error) {
         console.error("Error deleting customer:", error);
       }
@@ -71,13 +74,13 @@ const CustomerPanel = () => {
   };
 
   return (
-
-    <div className="p-6 bg-[#C6E7FF] min-h-screen rounded-md shadow-sm ">
+    <div className="p-6 bg-[#C6E7FF] min-h-screen rounded-md shadow-sm">
       <h1 className="text-2xl font-bold mb-6 text-gray-800">Customer Panel</h1>
       <div className="overflow-x-auto">
 
         <div className="mb-4">
-          <input type="text"
+          <input
+            type="text"
             placeholder="Search Customer"
             value={searchCustomer}
             onChange={(e) => setSearchCustomer(e.target.value)}
@@ -116,11 +119,14 @@ const CustomerPanel = () => {
                   <td className="px-6 py-4 whitespace-nowrap space-x-2">
                     <button
                       onClick={() => openEditModal(customer)}
-                      className="bg-[#2696ff] ] px-3 py-1 rounded"
+                      className="bg-[#2696ff] px-3 py-1 rounded"
                     >
                       <SquarePen size={18} color='#ffffff' width={30} strokeWidth={1.5} />
                     </button>
-                    <button onClick={() => handleDelete(customer.customer_id)} className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm transition-all">
+                    <button
+                      onClick={() => handleDelete(customer.customer_id)}
+                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm transition-all"
+                    >
                       <Trash size={18} color='#ffffff' width={30} />
                     </button>
                   </td>
@@ -128,6 +134,24 @@ const CustomerPanel = () => {
               ))}
           </tbody>
         </table>
+
+        {/* Pagination controls */}
+        <div className="flex justify-center mt-4 space-x-2">
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentPage(i + 1)}
+              className={`px-3 py-1 rounded-md ${
+                currentPage === i + 1
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-200 text-gray-700'
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+
         <EditCustomerModal
           show={showModal}
           editForm={editForm}
@@ -139,6 +163,5 @@ const CustomerPanel = () => {
     </div>
   );
 };
-
 
 export default CustomerPanel;

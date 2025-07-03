@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import Button from '../../components/Button/button';
 import { PrinterCheck, ArrowLeft } from 'lucide-react';
-import { getTransaction } from '../../services/TransactionServices';
+import { getTransactionById } from '../../services/TransactionServices';
 
 const TransactionDetailPage = () => {
     const { id } = useParams();
@@ -16,9 +16,8 @@ const TransactionDetailPage = () => {
     useEffect(() => {
         const fetchTransaction = async () => {
             try {
-                const data = await getTransaction();
-                const found = data.find(t => t.transaction_id === id);
-                setTransaction(found || null);
+                const data = await getTransactionById(id);
+                setTransaction(data);
             } catch (error) {
                 console.error('Error fetching transaction:', error);
                 setTransaction(null);
@@ -28,6 +27,7 @@ const TransactionDetailPage = () => {
         };
         fetchTransaction();
     }, [id]);
+
 
     // Set print ready when both transaction and printable element are available
     useEffect(() => {
@@ -73,16 +73,16 @@ const TransactionDetailPage = () => {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
             <div className="w-full max-w-md bg-white rounded-lg shadow p-6 relative">
-                <Button 
-                    variant="outline" 
-                    onClick={() => navigate(-1)} 
+                <Button
+                    variant="outline"
+                    onClick={() => navigate(-1)}
                     className="mb-4 flex items-center gap-2 no-print"
                 >
                     <ArrowLeft size={16} /> Back
                 </Button>
-                
+
                 <div className="mb-6">
-                    <div 
+                    <div
                         className="p-4 bg-white"
                         ref={el => setPrintableElement(el)}
                     >

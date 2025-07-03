@@ -7,7 +7,7 @@ import Customer from './pages/Customer/Customer';
 import Product from './pages/Product/Product';
 import Transactions from './pages/Transactions/Transactions';
 import ProtectedRoute from './components/ProtectedRoute';
-import TransactionPanel from './pages/adminPanel/TransactionPanel';
+import TransactionPanel from './pages/adminPanel/Transaction/TransactionPanel';
 import Reports from './pages/adminPanel/Report/Reports';
 import TransactionDetailPage from './pages/Transactions/TransactionDetailPage';
 import Category from './pages/adminPanel/Category/Category';
