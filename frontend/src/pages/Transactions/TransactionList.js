@@ -95,7 +95,7 @@ const TransactionList = () => {
           <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {filteredTransactions.map((transaction) => (
               <li key={transaction.transaction_id}>
-                <Cards className="shadow-blue-500 hover:border-blue-500 border-2 p-4">
+                <Cards className="bg-white shadow-blue-500 hover:border-blue-500 border-2 p-4">
                   <div onClick={() => handleTransactionClick(transaction)} className="cursor-pointer">
                     <p className="text-sm">Transaction No. # {transaction.transaction_id.slice(0, 8)}</p>
                     <p className="text-sm font-medium text-gray-800">Customer: {transaction.customer}</p>

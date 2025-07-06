@@ -1,7 +1,6 @@
 import { Check, X } from "lucide-react";
 import Button from "../../../components/Button/button";
 
-
 const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm, transactionId }) => {
     if (!isOpen) return null;
 
@@ -10,7 +9,7 @@ const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm, transactionId }) => {
             <div className="bg-[#FF6500] p-6 rounded-xl shadow-xl w-[90%] max-w-md">
                 <h2 className="text-xl font-bold mb-4">Delete Transaction</h2>
                 <p className="mb-6">
-                    Are you sure you want to delete Transaction #{transactionId.slice(0, 8)}?
+                    Are you sure you want to delete Transaction <span className="font-bold">#{transactionId.slice(0, 8)}</span>?
                 </p>
                 <div className="flex justify-end gap-4">
                     <Button variant="black" onClick={onClose}>

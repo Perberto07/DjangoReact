@@ -3,7 +3,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 content-type: application/json
 
 ###
-PUT http://127.0.0.1:8000/transaction/ HTTP/1.1
+GET http://127.0.0.1:8000/transaction/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUxODI2Nzc5LCJpYXQiOjE3NTE4MDg3NzksImp0aSI6Ijg1OGM5NDgxOTdhYTRmNWVhMzgyMmU4MmNiM2Q3OTc5IiwidXNlcl9pZCI6Mn0.7DR4PtCdSyqE2M1OuUrb8-KlXOlF5-M0pV-OBwWBaZ8
 Content-Type: application/json
 
 ###

@@ -1,6 +1,6 @@
 const Cards = ({ children, className = '' }) => {
   return (
-    <div className={`bg-white rounded-lg shadow p-4 mb-4 ${className}`}>
+    <div className={`rounded-lg shadow p-4 mb-4 ${className}`}>
       {children}
     </div>
   );

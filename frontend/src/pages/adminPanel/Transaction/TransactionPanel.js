@@ -2,12 +2,11 @@ import Cards from "../../../components/card/Cards";
 import { getTransaction } from "../../../services/TransactionServices";
 import { useState, useEffect } from "react";
 import DashboardLayout from "../../../layouts/DashboardLayout";
-import { deleteTransaction, updateTransaction } from "../../../services/TransactionServices";
+import { deleteTransaction } from "../../../services/TransactionServices";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
-import EditTransactionModal from "./EditTransactionModal";
 import Button from "../../../components/Button/button";
-import { ArrowLeft, ArrowRight, Pen, Trash } from "lucide-react";
-
+import { ArrowLeft, ArrowRight, Eye, Trash } from "lucide-react";
+import TransactionDetailModal from "./TransactionDetailModal";
 
 const TransactionPanel = () => {
     const [transactions, setTransactions] = useState([]);
@@ -17,10 +16,8 @@ const TransactionPanel = () => {
     const pageSize = 6;
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [transactionToDelete, setTransactionToDelete] = useState(null);
-
-    const [showEditModal, setShowEditModal] = useState(false);
-    const [transactionToEdit, setTransactionToEdit] = useState(null);
-
+    const [showDetailModal, setShowDetailModal] = useState(false);
+    const [transactionToView, setTransactionToView] = useState(null);
 
     useEffect(() => {
         const fetchTransactions = async () => {
@@ -46,6 +43,11 @@ const TransactionPanel = () => {
     const handleNext = () => {
         if (page < totalPages) setPage(page + 1);
     };
+    const openDetailModal = (transaction) => {
+        setTransactionToView(transaction);
+        setShowDetailModal(true);
+    };
+
     const openDeleteModal = (transaction) => {
         setTransactionToDelete(transaction);
         setShowDeleteModal(true);
@@ -60,20 +62,6 @@ const TransactionPanel = () => {
         setTransactions(data.results);
     };
 
-    const openEditModal = (transaction) => {
-        setTransactionToEdit(transaction);
-        setShowEditModal(true);
-    };
-
-    const handleSaveEdit = async (id, updatedData) => {
-        await updateTransaction(id, updatedData);
-        setShowEditModal(false);
-        setTransactionToEdit(null);
-        const data = await getTransaction(page, pageSize);
-        setTransactions(data.results);
-    };
-
-
     return (
         <DashboardLayout>
             <div className="p-4 text-black">
@@ -87,26 +75,28 @@ const TransactionPanel = () => {
                         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {transactions.map((transaction) => (
                                 <li key={transaction.transaction_id}>
-                                    <Cards className= "shadow-md p-4 bg-[#0B192C] text-white">
+                                    <Cards className="shadow-md p-4 bg-[#0B192C] text-white rounded-none">
                                         <p className="text-sm">Transaction No. # {transaction.transaction_id.slice(0, 8)}</p>
-                                        <p className="text-sm font-medium ">Customer: {transaction.customer}</p>
+                                        <p className="text-sm font-medium">Customer: {transaction.customer}</p>
                                         <p className="text-sm">Date: {new Date(transaction.create_at).toLocaleDateString()}</p>
                                         <p className="text-sm font-semibold">Total price: ₱{transaction.total_price}</p>
+
                                         <Button
                                             variant="primary"
-                                            onClick={() => openEditModal(transaction)}
+                                            onClick={() => openDetailModal(transaction)}
                                             className="mt-2"
                                         >
-                                            <Pen size={16} />
+                                            <Eye size={16} />
                                         </Button>
 
                                         <Button
                                             variant="danger"
                                             onClick={() => openDeleteModal(transaction)}
-                                            className="mt-2 ml-2"
+                                            className="mt-2 mx-1"
                                         >
-                                            <Trash size={16}/>
+                                            <Trash size={16} />
                                         </Button>
+
 
                                     </Cards>
                                 </li>
@@ -118,7 +108,7 @@ const TransactionPanel = () => {
                                 disabled={page === 1}
                                 onClick={handlePrevious}
                             >
-                                <ArrowLeft size={16}/>
+                                <ArrowLeft size={16} />
                             </Button>
                             <span className="font-medium text-white">Page {page} of {totalPages}</span>
                             <Button
@@ -132,18 +122,17 @@ const TransactionPanel = () => {
                     </>
                 )}
             </div>
+
             <ConfirmDeleteModal
                 isOpen={showDeleteModal}
                 transactionId={transactionToDelete?.transaction_id || ""}
                 onClose={() => setShowDeleteModal(false)}
                 onConfirm={confirmDelete}
             />
-
-            <EditTransactionModal
-                isOpen={showEditModal}
-                transaction={transactionToEdit}
-                onClose={() => setShowEditModal(false)}
-                onSave={handleSaveEdit}
+            <TransactionDetailModal
+                isOpen={showDetailModal}
+                transaction={transactionToView}
+                onClose={() => setShowDetailModal(false)}
             />
 
         </DashboardLayout>
