@@ -9,6 +9,7 @@ const Button = ({ children, onClick, variant = 'primary', className = '', ...pro
     danger: 'bg-red-500 text-white hover:bg-red-600',
     submit: 'bg-blue-500 text-white hover:bg-blue-600',
     green: 'bg-green-700 text-white hover:bg-green-800',
+    black: 'bg-black text-white hover:bg-gray-800'
   };
 
   return (

@@ -7,8 +7,8 @@ const DashboardLayout = ({ children }) => {
 
   return (
     <>
-    <div className="min-h-screen flex-col bg-gray-800 text-gray-100">
-      <header className='w-full min-h-16 sticky top-0 bg-blue-900 z-50 flex items-center justify-between px-4 shadow'>
+    <div className="min-h-screen flex-col  bg-[#1E3E62] text-gray-100">
+      <header className='w-full min-h-16 sticky top-0 bg-[#FF6500] z-50 flex items-center justify-between px-4 shadow'>
         {/* Toggle Button */}
         <button
           className="md:hidden text-gray-300 bg-gray-900 p-1 rounded"
@@ -18,12 +18,12 @@ const DashboardLayout = ({ children }) => {
           {isOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
 
-        <h1 className='text-2xl font-bold text-center w-full pr-10'>Dashboard</h1>
+        <h1 className='text-2xl font-bold text-center w-full pr-10 text-black'>Dashboard</h1>
       </header>
 
       <div className='flex'>
         <Sidebar isOpen={isOpen} />
-        <main className="flex-1 p-6 overflow-y-scroll">
+        <main className="flex-1 p-6">
           {children}
         </main>
       </div>

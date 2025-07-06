@@ -6,6 +6,7 @@ import { deleteTransaction, updateTransaction } from "../../../services/Transact
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import EditTransactionModal from "./EditTransactionModal";
 import Button from "../../../components/Button/button";
+import { ArrowLeft, ArrowRight, Pen, Trash } from "lucide-react";
 
 
 const TransactionPanel = () => {
@@ -86,17 +87,17 @@ const TransactionPanel = () => {
                         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {transactions.map((transaction) => (
                                 <li key={transaction.transaction_id}>
-                                    <Cards className="shadow-blue-500 hover:border-blue-500 border-2 p-4">
+                                    <Cards className= "shadow-md p-4 bg-[#0B192C] text-white">
                                         <p className="text-sm">Transaction No. # {transaction.transaction_id.slice(0, 8)}</p>
-                                        <p className="text-sm font-medium text-gray-800">Customer: {transaction.customer}</p>
-                                        <p className="text-sm text-gray-800">Date: {new Date(transaction.create_at).toLocaleDateString()}</p>
+                                        <p className="text-sm font-medium ">Customer: {transaction.customer}</p>
+                                        <p className="text-sm">Date: {new Date(transaction.create_at).toLocaleDateString()}</p>
                                         <p className="text-sm font-semibold">Total price: ₱{transaction.total_price}</p>
                                         <Button
-                                            variant="outline"
+                                            variant="primary"
                                             onClick={() => openEditModal(transaction)}
                                             className="mt-2"
                                         >
-                                            Edit
+                                            <Pen size={16} />
                                         </Button>
 
                                         <Button
@@ -104,7 +105,7 @@ const TransactionPanel = () => {
                                             onClick={() => openDeleteModal(transaction)}
                                             className="mt-2 ml-2"
                                         >
-                                            Delete
+                                            <Trash size={16}/>
                                         </Button>
 
                                     </Cards>
@@ -113,19 +114,19 @@ const TransactionPanel = () => {
                         </ul>
                         <div className="flex justify-center items-center gap-4 mt-6">
                             <Button
-                                variant="outline"
+                                variant="secondary"
                                 disabled={page === 1}
                                 onClick={handlePrevious}
                             >
-                                Previous
+                                <ArrowLeft size={16}/>
                             </Button>
-                            <span className="font-medium">Page {page} of {totalPages}</span>
+                            <span className="font-medium text-white">Page {page} of {totalPages}</span>
                             <Button
-                                variant="outline"
+                                variant="secondary"
                                 disabled={page === totalPages}
                                 onClick={handleNext}
                             >
-                                Next
+                                <ArrowRight size={16} />
                             </Button>
                         </div>
                     </>

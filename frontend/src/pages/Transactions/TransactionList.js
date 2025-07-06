@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getTransaction } from '../../services/TransactionServices';
 import Cards from '../../components/card/Cards';
 import Button from '../../components/Button/button';
-import { ScanSearch, ArrowUpDown, Users, History, PhilippinePeso } from 'lucide-react';
+import { ScanSearch, Users, History, PhilippinePeso } from 'lucide-react';
 import { searchData } from '../../utils/searchUtils';
 import { sortData } from '../../utils/sortUtils';
 

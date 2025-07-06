@@ -65,7 +65,7 @@ const SalesLineChart = ({ startDate, endDate }) => {
     };
 
     return (
-        <div className="bg-gray-700 p-4 rounded">
+        <div className="bg-gray-600 p-4 rounded">
             <h2 className="text-white font-semibold mb-2">Sales Line Chart</h2>
             <div className="w-full" style={{ height: "300px" }}>
                 {salesData.length > 0 ? (
