@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { getCustomer, deleteCustomer, updateCustomer } from "../../services/CustomerServices";
 import EditCustomerModal from "./EditCustomerModal";
 import 'react-toastify/dist/ReactToastify.css';
-import { SquarePen, Trash } from 'lucide-react';
+import { ArrowUpDown, SquarePen, Trash } from 'lucide-react';
+import { sortData } from "../../utils/sortUtils";
+import { searchData } from "../../utils/searchUtils";
 
 const CustomerPanel = () => {
   const [customers, setCustomers] = useState([]);
-  const [searchCustomer, setSearchCustomer] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState(null);
   const [editForm, setEditForm] = useState({
@@ -15,10 +16,11 @@ const CustomerPanel = () => {
     customer_number: '',
   });
 
+  const [sortConfig, setSortConfig] = useState({ key: 'customer_name', direction: 'asc', isDate: false });
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const pageSize = 20;
-
+  const [searchTerm, setSearchTerm] = useState('');
   useEffect(() => {
     fetchCustomer(currentPage);
   }, [currentPage]);
@@ -78,14 +80,22 @@ const CustomerPanel = () => {
       <h1 className="text-2xl font-bold mb-6 text-gray-800">Customer Panel</h1>
       <div className="overflow-x-auto">
 
-        <div className="mb-4">
+        <div className="mb-4 flex justify-between">
           <input
             type="text"
             placeholder="Search Customer"
-            value={searchCustomer}
-            onChange={(e) => setSearchCustomer(e.target.value)}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="w-3/6 px-4 py-2 border rounded"
           />
+          <button
+            className="bg-[#1da855] px-2 rounded text-sm mr-2"
+            onClick={() =>
+              setSortConfig({ key: 'customer_name', direction: sortConfig.direction === 'asc' ? 'desc' : 'asc', isDate: false })
+            }
+          >
+            <ArrowUpDown size={20} color='#ffffff' />
+          </button>
         </div>
 
         <table className="min-w-full bg-[#FBFBFB] border-gray-200 shadow-md rounded-lg overflow-hidden">
@@ -98,10 +108,12 @@ const CustomerPanel = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {customers
-              .filter((customer) =>
-                customer.customer_name.toLowerCase().includes(searchCustomer.toLowerCase())
-              )
+            {sortData(
+              searchData(customers, searchTerm, ['customer_name', 'customer_address']),
+              sortConfig.key,
+              sortConfig.direction,
+              sortConfig.isDate
+            )
               .map((customer) => (
                 <tr
                   key={customer.customer_id}
@@ -134,6 +146,11 @@ const CustomerPanel = () => {
               ))}
           </tbody>
         </table>
+        <div className="mb-4 space-x-2">
+          
+              
+        </div>
+
 
         {/* Pagination controls */}
         <div className="flex justify-center mt-4 space-x-2">
@@ -141,11 +158,10 @@ const CustomerPanel = () => {
             <button
               key={i}
               onClick={() => setCurrentPage(i + 1)}
-              className={`px-3 py-1 rounded-md ${
-                currentPage === i + 1
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-200 text-gray-700'
-              }`}
+              className={`px-3 py-1 rounded-md ${currentPage === i + 1
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-200 text-gray-700'
+                }`}
             >
               {i + 1}
             </button>

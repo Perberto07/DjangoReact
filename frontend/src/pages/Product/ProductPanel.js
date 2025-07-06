@@ -3,8 +3,10 @@ import { getProducts, deleteProduct, updateProduct } from '../../services/Produc
 import { getCategory } from '../../services/CategoryServices';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { SquarePen, Trash } from 'lucide-react';
+import { ArrowUpDown, SquarePen, Trash } from 'lucide-react';
 import EditProductModal from './EditProductModal';
+import { sortData } from '../../utils/sortUtils';
+import { searchData } from '../../utils/searchUtils';
 
 const ProductPanel = () => {
   const [products, setProducts] = useState([]);
@@ -17,7 +19,7 @@ const ProductPanel = () => {
   });
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-
+  const [sortConfig, setSortConfig] = useState({ key: 'product_name', direction: 'asc', isDate: false })
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const pageSize = 20;
@@ -93,7 +95,7 @@ const ProductPanel = () => {
     <div className="p-6 bg-[#C6E7FF] min-h-screen rounded-md shadow-sm">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Product Panel</h2>
       <div className="overflow-x-auto">
-        <div className="mb-4">
+        <div className="mb-4 flex justify-between ">
           <input
             type="text"
             placeholder="Search products..."
@@ -101,6 +103,14 @@ const ProductPanel = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-3/6 px-4 py-2 border rounded"
           />
+          <button
+            className="bg-[#1da855] px-2 rounded text-sm mr-2"
+            onClick={() =>
+              setSortConfig({ key: 'product_name', direction: sortConfig.direction === 'asc' ? 'desc' : 'asc', isDate: false })
+            }
+          >
+            <ArrowUpDown size={20} color='#ffffff' />
+          </button>
         </div>
 
         <table className="min-w-full bg-[#FBFBFB] border-gray-200 shadow-md rounded-lg overflow-hidden">
@@ -113,33 +123,34 @@ const ProductPanel = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {products
-              .filter((p) =>
-                p.product_name.toLowerCase().includes(searchTerm.toLowerCase())
-              )
-              .map((p) => (
-                <tr key={p.product_id} className="border-b hover:bg-[#D4F6FF] transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap text-gray-800">{p.product_name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-gray-800">
-                    ₱{parseFloat(p.product_price).toFixed(2)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-gray-800">{p.product_category}</td>
-                  <td className="px-6 py-4 whitespace-nowrap space-x-2">
-                    <button
-                      onClick={() => openEditModal(p)}
-                      className="bg-[#2696ff] px-3 py-1 rounded"
-                    >
-                      <SquarePen size={18} color="#ffffff" strokeWidth={1.5} />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(p.product_id)}
-                      className="bg-[#f73f3f] px-3 py-1 rounded"
-                    >
-                      <Trash size={18} color="#ffffff" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+            {sortData(
+              searchData(products, searchTerm, ['product_name', 'product_category']),
+              sortConfig.key,
+              sortConfig.direction,
+              sortConfig.isDate
+            ).map((p) => (
+              <tr key={p.product_id} className="border-b hover:bg-[#D4F6FF] transition-colors">
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{p.product_name}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">
+                  ₱{parseFloat(p.product_price).toFixed(2)}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{p.product_category}</td>
+                <td className="px-6 py-4 whitespace-nowrap space-x-2">
+                  <button
+                    onClick={() => openEditModal(p)}
+                    className="bg-[#2696ff] px-3 py-1 rounded"
+                  >
+                    <SquarePen size={18} color="#ffffff" strokeWidth={1.5} />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(p.product_id)}
+                    className="bg-[#f73f3f] px-3 py-1 rounded"
+                  >
+                    <Trash size={18} color="#ffffff" />
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
 
