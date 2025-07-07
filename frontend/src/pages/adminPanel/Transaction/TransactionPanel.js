@@ -7,7 +7,8 @@ import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import Button from "../../../components/Button/button";
 import { ArrowLeft, ArrowRight, Eye, Trash } from "lucide-react";
 import TransactionDetailModal from "./TransactionDetailModal";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TransactionPanel = () => {
     const [transactions, setTransactions] = useState([]);
@@ -58,9 +59,9 @@ const TransactionPanel = () => {
         if (!transactionToDelete) return;
         await deleteTransaction(transactionToDelete.transaction_id);
         setShowDeleteModal(false);
-        toast.warning('Transaction Deleted Successfully')
         setTransactionToDelete(null);
         const data = await getTransaction(page, pageSize);
+        toast.warning('Transaction Deleted Successfully')
         setTransactions(data.results);
     };
 
@@ -136,6 +137,7 @@ const TransactionPanel = () => {
                 transaction={transactionToView}
                 onClose={() => setShowDetailModal(false)}
             />
+            <ToastContainer richColor position='top-center' autoClose={3000} />
 
         </DashboardLayout>
     );

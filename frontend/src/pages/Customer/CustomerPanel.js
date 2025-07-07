@@ -5,6 +5,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ArrowUpDown, SquarePen, Trash } from 'lucide-react';
 import { sortData } from "../../utils/sortUtils";
 import { searchData } from "../../utils/searchUtils";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CustomerPanel = () => {
   const [customers, setCustomers] = useState([]);
@@ -59,6 +61,7 @@ const CustomerPanel = () => {
       setShowModal(false);
       setEditingCustomer(null);
       fetchCustomer(currentPage);
+      toast.success("Customer Added Successfully!");
     } catch (error) {
       console.error('Error updating customer:', error);
     }
@@ -69,6 +72,7 @@ const CustomerPanel = () => {
       try {
         await deleteCustomer(id);
         fetchCustomer(currentPage);
+        toast.warning("Customer Deleted Successfully!")
       } catch (error) {
         console.error("Error deleting customer:", error);
       }
@@ -176,6 +180,7 @@ const CustomerPanel = () => {
           onSubmit={handleEditSubmit}
         />
       </div>
+      <ToastContainer richColor position='top-center' autoClose={3000} />
     </div>
   );
 };

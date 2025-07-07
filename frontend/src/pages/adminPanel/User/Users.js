@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { deleteUser, getUsers } from '../../../services/UserServices';
 import {Trash } from 'lucide-react';
 import DashboardLayout from '../../../layouts/DashboardLayout';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -25,6 +26,7 @@ const Users = () => {
       try{
         await deleteUser(id);
         await fetchUser();
+        toast.warning("User Deleted Successfully!")
       }catch(err){
         console.log(err);
       }
@@ -65,6 +67,7 @@ const Users = () => {
             </tbody>
           </table>
         </div>
+        <ToastContainer richColor position='top-center' autoClose={3000} />
       </DashboardLayout>
     </>
   );
