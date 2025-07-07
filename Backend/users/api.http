@@ -2,8 +2,8 @@ POST http://127.0.0.1:8000/api/token/
 Content-Type: application/json
 
 {
-  "email": "perberto07@gmail.com",
-  "password": "perberto07"
+  "email": "patrick@gmail.com",
+  "password": "lala14"
 }
 ###
 GET http://127.0.0.1:8000/users/user/ HTTP/1.1
