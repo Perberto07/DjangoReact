@@ -26,7 +26,7 @@ const TopCustomersChart = ({ startDate, endDate }) => {
   const [topCustomers, setTopCustomers] = useState([]);
 
   useEffect(() => {
-    let url = "http://127.0.0.1:8000/top-customers/";
+    let url = "http://192.168.68.11:8000/top-customers/";
     if (startDate && endDate) {
       url += `?start_date=${startDate}&end_date=${endDate}`;
     }

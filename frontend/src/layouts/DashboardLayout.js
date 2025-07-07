@@ -7,7 +7,7 @@ const DashboardLayout = ({ children }) => {
 
   return (
     <>
-    <div className="min-h-screen flex-col  bg-[#1E3E62] text-gray-100">
+    <div className="min-h-screen w-full flex-col  bg-[#1E3E62] text-gray-100 ">
       <header className='w-full min-h-16 sticky top-0 bg-black z-50 flex items-center justify-between px-4 shadow'>
         {/* Toggle Button */}
         <button
@@ -15,13 +15,13 @@ const DashboardLayout = ({ children }) => {
           onClick={() => setIsOpen(!isOpen)}
           aria-label="toggle navigation"
         >
-          {isOpen ? <X size={20} /> : <Menu size={20} />}
+          {isOpen ? <X size={20} color='white'/> : <Menu size={20} color='white'/>}
         </button>
 
         <h1 className='text-2xl font-bold text-center w-full pr-10 text-white'>Dashboard</h1>
       </header>
 
-      <div className='flex'>
+      <div className='flex overflow-x-auto'>
         <Sidebar isOpen={isOpen} />
         <main className="flex-1 p-6">
           {children}

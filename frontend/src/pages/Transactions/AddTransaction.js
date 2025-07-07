@@ -6,6 +6,7 @@ import { getProductByBarcode, getProducts } from '../../services/ProductServices
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Select from 'react-select';
+import { PlusCircle, Send } from 'lucide-react';
 
 const AddTransaction = () => {
   const [orderItems, setOrderItems] = useState([]);
@@ -129,10 +130,8 @@ const AddTransaction = () => {
 
 
   return (
-    <div className="w-full grid grid-cols-1 md:flex flex-row space-x-3">
-      <div className='w-full h-auto bg-white rounded-md shadow-md p-3'>
-        <BarcodeScanner onScanned={handleScan} />
-      </div>
+    <div className="max-w-screen-md grid grid-cols-1 md:flex flex-row space-x-3 md:min-w-full">
+      <BarcodeScanner onScanned={handleScan}/>
 
       <div className='w-full'>
         <div>
@@ -175,15 +174,15 @@ const AddTransaction = () => {
 
 
         <div className='flex mt-3 justify-around'>
-          <button onClick={openModal} className="bg-green-600 text-white px-4 py-2 rounded">
-            Add Item Manually
+          <button onClick={openModal} className="bg-green-600 text-white px-2 rounded items-center flex flex-col-1">
+            <PlusCircle size={18} /> <span>Manually</span>
           </button>
           <button
-            className="bg-blue-600 text-white px-4 py-2 rounded"
+            className="bg-blue-600 text-white px-4 py-2 rounded items-center flex flex-col-1"
             onClick={handleSubmit}
             disabled={!customer || orderItems.length === 0}
           >
-            Submit Transaction
+            <Send size={18} /> <span>Submit</span>
           </button>
         </div>
       </div>

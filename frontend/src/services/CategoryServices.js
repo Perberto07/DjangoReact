@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://127.0.0.1:8000/category/';
+const API_URL = 'http://192.168.68.11:8000/category/';
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('access_token');

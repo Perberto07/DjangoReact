@@ -26,7 +26,7 @@ const BarcodeScanner = ({ onScanned }) => {
         html5QrCodeRef.current = new Html5Qrcode(qrRegionId);
 
         const devices = await Html5Qrcode.getCameras();
-        
+
         if (devices && devices.length > 0 && isComponentMounted) {
           const backCamera = devices.find((device) =>
             device.label.toLowerCase().includes("back")
@@ -79,13 +79,26 @@ const BarcodeScanner = ({ onScanned }) => {
   }, []); // Remove onScanned from dependencies
 
   return (
-    <div>
-      <h3 className="text-lg font-bold mb-2">Scan Barcode</h3>
-      <div id="html5qr-code-region" style={{ width: "320px", margin: "auto" }} />
-      {!isScanning && <p>Loading camera...</p>}
-      {isScanning && <p className="text-green-600 text-sm">Ready to scan</p>}
+    <div className="bg-white p-4 rounded-lg shadow-md w-full max-w-md mx-auto">
+      <h3 className="text-lg font-bold mb-2 text-center">Scan Barcode</h3>
+
+      <div
+        id="html5qr-code-region"
+        className="w-full rounded-md overflow-hidden"
+        style={{
+          width: '100%',
+          maxWidth: '100%',
+          height: 'calc(100vw - 4rem)', // fills most of screen width minus padding
+          maxHeight: '400px',
+          margin: '0 auto'
+        }}
+      />
+
+      {!isScanning && <p className="text-center text-gray-600 mt-2">Loading camera...</p>}
+      {isScanning && <p className="text-center text-green-600 text-sm mt-2">Ready to scan</p>}
     </div>
   );
+
 };
 
 export default BarcodeScanner;

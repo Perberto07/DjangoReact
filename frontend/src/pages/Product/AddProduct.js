@@ -43,9 +43,9 @@ const AddProduct = () => {
   // CRITICAL FIX: Use useCallback to prevent function recreation
   const handleBarcodeScanned = useCallback((barcode) => {
     console.log("Scanned Barcode:", barcode);
-    setFormData(prevData => ({ 
-      ...prevData, 
-      product_barcode: barcode 
+    setFormData(prevData => ({
+      ...prevData,
+      product_barcode: barcode
     }));
   }, []); // Empty dependency array means this function never changes
 
@@ -54,7 +54,7 @@ const AddProduct = () => {
 
     // Find the selected category to get its name
     const selectedCategory = categories.find(cat => cat.id.toString() === formData.product_category);
-    
+
     if (!formData.product_name || !formData.product_price || !selectedCategory) {
       setMessage('Please fill in all fields correctly.');
       return;
@@ -77,7 +77,7 @@ const AddProduct = () => {
         product_price: '',
         product_barcode: '', // clear barcode after submission
       });
-      
+
       toast.success("Product Added Successfully!");
     } catch (error) {
       console.error('Error adding product:', error.response?.data || error.message);
@@ -86,55 +86,66 @@ const AddProduct = () => {
   };
 
   return (
-    <div className='max-w-screen-md flex flex-col items-center md:min-w-full'>
-      <h2 className='py-2 font-extrabold size-16 flex flex-row items-center w-40 '>
-        Add Product
-      </h2>
-      {message && <p>{message}</p>}
-      <form onSubmit={handleSubmit} 
-            className='bg-[#FDFDFD] p-10 shadow shadow-blue-500 border border-blue-200 hover:border-blue-500 rounded-md space-x-3 space-y-2'>
-        <div className='space-y-1 flex flex-col items-center'>
-          <BarcodeScanner onScanned={handleBarcodeScanned} />
-          <input
-            type="text"
-            name="product_barcode"
-            placeholder="Scan barcode"
-            value={formData.product_barcode}
-            required
-            onChange={handleChange}
-          /><br />
+    <div className="w-full max-w-md mx-auto p-4">
+      <h2 className="text-xl font-bold text-center mb-4 text-blue-700">Add Product</h2>
+
+      {message && <p className="text-center text-red-500 text-sm mb-2">{message}</p>}
+
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-4 rounded-lg shadow-md space-y-4"
+      >
+        {/* Barcode Scanner */}
+        <div className="bg-gray-50 p-3 rounded border border-blue-200">
+          <div className="flex flex-col items-center">
+            <BarcodeScanner onScanned={handleBarcodeScanned} />
+            <input
+              type="text"
+              name="product_barcode"
+              placeholder="Scanned barcode"
+              value={formData.product_barcode}
+              onChange={handleChange}
+              required
+              className="mt-2 w-full px-3 border rounded-md text-sm"
+            />
+          </div>
         </div>
 
-        <div className='flex flex-col grid-cols-2'>
-          <label htmlFor="product_name">Product Name: </label>
+        {/* Product Name */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
           <input
             type="text"
             name="product_name"
-            placeholder="Product Name"
             value={formData.product_name}
             onChange={handleChange}
             required
-            className='p-2 rounded-md border border-gray-300 hover:border-blue-500'
+            className="w-full px-3 py-2 border rounded-md text-sm"
           />
+        </div>
 
-          <label htmlFor="product_price">Price:</label>
+        {/* Product Price */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
           <input
             type="number"
             name="product_price"
-            placeholder="Price"
             value={formData.product_price}
             onChange={handleChange}
             required
-            className='p-2 rounded-md border border-gray-300 hover:border-blue-500'
+            className="w-full px-3 py-2 border rounded-md text-sm"
           />
-          {/* Category dropdown */}
-          <label htmlFor="product_category">Category:</label>
+        </div>
+
+        {/* Category */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
           <select
             name="product_category"
             value={formData.product_category}
             onChange={handleChange}
             required
-            className='p-2 rounded-md border border-gray-300 hover:border-blue-500'
+            className="w-full px-3 py-2 border rounded-md text-sm"
           >
             <option value="">Select Category</option>
             {categories.map((category) => (
@@ -144,14 +155,18 @@ const AddProduct = () => {
             ))}
           </select>
         </div>
-        <Button variant='submit' className='flex flex-row items-center gap-2'>
+
+        {/* Submit Button */}
+        <Button type="submit" variant="submit" className="w-full flex items-center justify-center gap-2 py-2">
           <span>Submit</span>
           <ArrowRightToLine size={18} />
         </Button>
       </form>
-      <ToastContainer richColor position='top-center' autoClose={3000} />
+
+      <ToastContainer richColor position="top-center" autoClose={3000} />
     </div>
   );
+
 };
 
 export default AddProduct;

@@ -17,7 +17,7 @@ const TopProductsChart = ({ startDate, endDate }) => {
   const [topProducts, setTopProducts] = useState([]);
 
   useEffect(() => {
-    let url = "http://127.0.0.1:8000/top-products/";
+    let url = "http://192.168.68.11:8000/top-products/";
     if (startDate && endDate) {
       url += `?start_date=${startDate}&end_date=${endDate}`;
     }
