@@ -121,6 +121,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     def destroy(self, request, pk=None):
         category = get_object_or_404(self.queryset, pk=pk)
         category.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
         
  
 class CustomerViewSet(viewsets.ModelViewSet):

@@ -6,5 +6,6 @@ Content-Type: application/json
   "password": "perberto07"
 }
 ###
-GET http://127.0.0.1:8000/users/user/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUxMjE3NDQ3LCJpYXQiOjE3NTExOTk0NDcsImp0aSI6IjlhMTkyNTM1ZjAxYjQ2MDA5N2IxOGMwOTU4OWU0NTNhIiwidXNlcl9pZCI6Mn0.D83TxxqbDv5uOJRgLunbv5OVAB_HSA2LWsB1wc1ofnk
+GET http://127.0.0.1:8000/users/user/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUxODY5ODgzLCJpYXQiOjE3NTE4NTE4ODMsImp0aSI6Ijc0YTIwMTMwODFmODRiMzNhYzc2MDZlNTYxNjZkY2ExIiwidXNlcl9pZCI6Mn0.ZyuX-sHgpN-V0w02y7ABT3mkyEtMHX4QdXgKY7lZWOI
+Content-Type: : application/json

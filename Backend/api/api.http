@@ -19,3 +19,8 @@ Content-Type: application/json
 ### Request to protected endpoint
 GET http://127.0.0.1:8000/protected/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUxNDQzMDAyLCJpYXQiOjE3NTE0MjUwMDIsImp0aSI6ImZiZDZhMjlmMWM3MjRmZDI5MGMzNDZmYzJkZWQyMGZjIiwidXNlcl9pZCI6Mn0.lFTnVAtMPt4aWf38whWDmScqow1yeGZZHuCDgDOr5mQ
+
+###
+DELETE  http://127.0.0.1:8000/category/19/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUxODY4MjA3LCJpYXQiOjE3NTE4NTAyMDcsImp0aSI6ImM0YTQzNGQ5NTY0MzQ3YTY4NWY1ZTNhYzA1NDkxNzQxIiwidXNlcl9pZCI6Mn0.4iBFmoXPpOtdPPxo7pfVBEMfMK8zTd7NLXl4Q20UWdA
+Content-Type: application/json
