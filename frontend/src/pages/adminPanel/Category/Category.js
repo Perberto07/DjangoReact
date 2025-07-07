@@ -4,6 +4,8 @@ import { Plus, SquarePen, Trash } from 'lucide-react';
 import DashboardLayout from '../../../layouts/DashboardLayout';
 import EditCategoryModal from './EditCategoryModal';
 import AddCategory from './AddCategory';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Category = () => {
   const [categories, setCategory] = useState([]);
@@ -42,6 +44,7 @@ const Category = () => {
       setFormData({ category_name: '' });
       setShowAddModal(false);
       await fetchCategory(); // Refresh the category list
+      toast.success("Category Added Successfully!");
     } catch (error) {
       console.error('Error adding category:', error);
     }
@@ -68,10 +71,10 @@ const Category = () => {
     e.preventDefault();
     try {
       await updateCategory(EditingCategory.id, editForm);
+      toast.success("Category Modified Successfully!");
       setShowEditModal(false);
       setEditingCategory(null);
       await fetchCategory();
-      //toast.success("Product Modified Successfully!");
     } catch (error) {
       console.error('Error updating Category:', error);
     }
@@ -82,7 +85,10 @@ const Category = () => {
       try {
         await deleteCategory(id);
         await fetchCategory();
+        toast.warning(" Category Deleted Successfully!");
       } catch (error) {
+        const msg = error.response?.data?.detail || "Server error during deletion";
+        toast.error(msg);
         console.error("Error deleting Category:", error);
       }
     }
@@ -162,7 +168,7 @@ const Category = () => {
           handleChange={handleChange}
           HandleSubmit={handleSubmit}
         />
-
+        <ToastContainer richColor position='top-center' autoClose={3000} />
       </div>
     </DashboardLayout>
   )

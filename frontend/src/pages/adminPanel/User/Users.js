@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { getUsers } from '../../../services/UserServices';
-import { SquarePen, Trash } from 'lucide-react';
+import { deleteUser, getUsers } from '../../../services/UserServices';
+import {Trash } from 'lucide-react';
 import DashboardLayout from '../../../layouts/DashboardLayout';
 
 const Users = () => {
@@ -17,6 +17,17 @@ const Users = () => {
       setUsers(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error('Error fetching users:', err);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this User")){
+      try{
+        await deleteUser(id);
+        await fetchUser();
+      }catch(err){
+        console.log(err);
+      }
     }
   };
 
@@ -44,10 +55,8 @@ const Users = () => {
                     ********
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap space-x-2">
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
-                      <SquarePen size={18} />
-                    </button>
-                    <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+                    <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                            onClick={() => handleDelete(user.id)}>
                       <Trash size={18} />
                     </button>
                   </td>

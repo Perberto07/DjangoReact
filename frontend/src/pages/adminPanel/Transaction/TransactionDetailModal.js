@@ -8,10 +8,10 @@ const TransactionDetailModal = ({ isOpen, onClose, transaction }) => {
     return (
         <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
             <div className="bg-[#0B192C] text-white rounded-xl shadow-xl w-[95%] max-w-lg max-h-[90vh] overflow-auto">
-                <div className="flex justify-between items-center px-4 py-2 bg-[#FF6500] text-black rounded-t-xl">
+                <div className="flex justify-between items-center px-4 py-2 bg-[#133297] text-white rounded-t-xl">
                     <h2 className="text-xl font-bold">Transaction Details</h2>
-                    <Button variant="warning" onClick={onClose}>
-                        <X size={20} color="black" />
+                    <Button variant="black" onClick={onClose}>
+                        <X size={20} color="white   " />
                     </Button>
                 </div>
 

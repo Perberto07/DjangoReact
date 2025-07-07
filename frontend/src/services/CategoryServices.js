@@ -11,10 +11,12 @@ const getAuthHeaders = () => {
   };
 };
 
-export const getCategory = async () => {
-  const response = await axios.get(API_URL, getAuthHeaders());
+// services/CategoryServices.js
+export const getCategory = async (url = API_URL) => {
+  const response = await axios.get(url, getAuthHeaders());
   return response.data;
 };
+
 
 export const createCategory = async (categoryData) => {
   const response = await axios.post(API_URL, categoryData, getAuthHeaders());
@@ -27,6 +29,5 @@ export const updateCategory = async (id, categoryData) => {
 };
 
 export const deleteCategory = async (id) => {
-  const response = await axios.delete(`${API_URL}${id}/`, getAuthHeaders());
-  return response.data;
+  await axios.delete(`${API_URL}${id}/`, getAuthHeaders());
 };

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getTransaction } from '../../services/TransactionServices';
 import Cards from '../../components/card/Cards';
 import Button from '../../components/Button/button';
-import { ScanSearch, Users, History, PhilippinePeso } from 'lucide-react';
+import { ScanSearch, Users, History, PhilippinePeso, ArrowLeft, ArrowRight } from 'lucide-react';
 import { searchData } from '../../utils/searchUtils';
 import { sortData } from '../../utils/sortUtils';
 
@@ -118,14 +118,14 @@ const TransactionList = () => {
           </ul>
 
           <div className="flex justify-center gap-4 mt-6">
-            <Button variant="outline" disabled={page === 1} onClick={handlePrevious}>
-              Previous
+            <Button variant="submit" disabled={page === 1} onClick={handlePrevious}>
+              <ArrowLeft size={16}/>
             </Button>
             <span className="flex items-center font-semibold">
-              Page {page} of {totalPages}
+              Page: {page} of {totalPages}
             </span>
-            <Button variant="outline" disabled={page === totalPages} onClick={handleNext}>
-              Next
+            <Button variant="submit" disabled={page === totalPages} onClick={handleNext}>
+              <ArrowRight size={16}/> 
             </Button>
           </div>
         </>

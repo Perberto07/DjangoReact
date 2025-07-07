@@ -72,6 +72,7 @@ const AddTransaction = () => {
       toast.success("Transaction created!");
     } catch (err) {
       console.error("Error submitting transaction", err);
+      toast.warning('Failed Adding Transaction')
     }
   };
 

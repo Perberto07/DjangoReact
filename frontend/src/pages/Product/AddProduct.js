@@ -69,7 +69,6 @@ const AddProduct = () => {
       };
 
       console.log("Sending to backend:", dataToSend);
-      toast.success("Product Added Successfully!");
 
       await createProduct(dataToSend);
       setFormData({
@@ -78,6 +77,8 @@ const AddProduct = () => {
         product_price: '',
         product_barcode: '', // clear barcode after submission
       });
+      
+      toast.success("Product Added Successfully!");
     } catch (error) {
       console.error('Error adding product:', error.response?.data || error.message);
       setMessage('Failed to add product.');
@@ -99,6 +100,7 @@ const AddProduct = () => {
             name="product_barcode"
             placeholder="Scan barcode"
             value={formData.product_barcode}
+            required
             onChange={handleChange}
           /><br />
         </div>

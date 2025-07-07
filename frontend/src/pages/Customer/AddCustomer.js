@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { createCustomer } from '../../services/CustomerServices';
 import Button from '../../components/Button/button';
 import {ArrowRightToLine} from 'lucide-react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddCustomer = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +13,6 @@ const AddCustomer = () => {
     customer_number: '',
   });
 
-  const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -25,22 +26,21 @@ const AddCustomer = () => {
 
     try {
       await createCustomer(formData);
-      setMessage('Product added successfully!');
       setFormData({
         customer_name: '',
         customer_address: '',
         customer_number: '',
       });
+      toast.success("Customer Added Successfully!");
     } catch (error) {
       console.error('Error adding product:', error);
-      setMessage('Failed to add product.');
+      toast.warning('Failed to add product.');
     }
   };
 
   return (
     <div className='max-w-screen-md flex flex-col items-center md:min-w-full'>
-      <h2>Add Customer</h2>
-      {message && <p>{message}</p>}
+      <h2 className='text-xl font-bold mb-3'>Customer Form</h2>
       <form onSubmit={handleSubmit}
             className='bg-[#FDFDFD] p-10 rounded-md shadow shadow-blue-500 space-x-3 space-y-2'>
          <div className='flex flex-col grid-cols-2'>
@@ -63,7 +63,7 @@ const AddCustomer = () => {
           className='p-2 rounded-md border border-gray-300 hover:border-blue-500'
         />
         <br/>  
-        <label for="customer_address">Name:</label>
+        <label for="customer_address">Phone Number:</label>
         <input
           type="number"
           name="customer_number"
@@ -80,6 +80,7 @@ const AddCustomer = () => {
         </Button>
         </div>
       </form>
+       <ToastContainer richColor position='top-center' autoClose={3000} />
     </div>
   );
 };
