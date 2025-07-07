@@ -15,13 +15,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.0.139', '192.168.68.11', '127.0.0.1', 'localhost' ]
 
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://192.168.0.139:3000',
     'http://192.168.68.11:3000',
     'http://192.168.0.254:3000',
-    'http://example.com',
+    'http://192.168.68.123',
     'http://localhost',
 )
 
