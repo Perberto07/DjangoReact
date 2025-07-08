@@ -130,7 +130,7 @@ const AddTransaction = () => {
 
 
   return (
-    <div className="max-w-screen-md grid grid-cols-1 md:flex flex-row space-x-3 md:min-w-full">
+    <div className="max-w-screen-md grid grid-cols-1 md:flex md:flex-row space-x-3 md:min-w-full items-center">
       <BarcodeScanner onScanned={handleScan}/>
 
       <div className='w-full'>

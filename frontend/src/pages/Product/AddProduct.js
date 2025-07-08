@@ -86,7 +86,7 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto p-4">
+    <div className="w-full max-w-md p-4">
       <h2 className="text-xl font-bold text-center mb-4 text-blue-700">Add Product</h2>
 
       {message && <p className="text-center text-red-500 text-sm mb-2">{message}</p>}
