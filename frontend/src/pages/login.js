@@ -13,7 +13,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true); // Start loading
     try {
-      const response = await axios.post('http://192.168.68.11:8000/api/token/', {
+      const response = await axios.post('http://127.0.0.1:8000/api/token/', {
         email,
         password,
       });

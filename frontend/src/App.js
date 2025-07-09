@@ -57,6 +57,7 @@ function App() {
             <Dashboard />
           </ProtectedRoute>
         } />
+
         
         <Route path="/dashboard/transaction-panel" element={
           <ProtectedRoute>

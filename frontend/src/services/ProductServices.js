@@ -1,7 +1,7 @@
 // src/services/productService.js
 import axios from 'axios';
 
-const API_URL = 'http://192.168.68.11:8000/product/'; // Change to your actual API URL
+const API_URL = 'http://127.0.0.1:8000/product/'; // Change to your actual API URL
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('access_token');
